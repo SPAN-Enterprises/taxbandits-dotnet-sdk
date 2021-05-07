@@ -2,6 +2,7 @@
 using DotNetCoreSDK.Models.Business_Model;
 using DotNetCoreSDK.Models.Utilities;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Nancy.Json;
 using Newtonsoft.Json;
 using System;
@@ -243,6 +244,40 @@ namespace DotNetCoreSDK.Controllers
 
             }
             return PartialView("_GetSIngleBusiness", BusinessGetReturnResponse);
+        }
+        #endregion
+
+        #region  Business Members List
+        [HttpGet]
+        public ActionResult BusinessMembersList(string id)
+        {
+            var businessType = id;
+            if (!string.IsNullOrWhiteSpace(businessType))
+            {
+                var businessMembersList = new List<SelectListItem>();
+                if (businessType == BusinessType.ESTE.ToString())
+                {
+                    businessMembersList = Enum.GetValues(typeof(EstateBusinessMembers)).Cast<EstateBusinessMembers>().Select(x => new SelectListItem { Text = Utility.GetEnumDisplayName(x), Value = (x).ToString() }).ToList();
+                }
+                else if (businessType == BusinessType.PART.ToString())
+                {
+                    businessMembersList = Enum.GetValues(typeof(PartnershipBusinessMembers)).Cast<PartnershipBusinessMembers>().Select(x => new SelectListItem { Text = Utility.GetEnumDisplayName(x), Value = (x).ToString() }).ToList();
+                }
+                else if (businessType == BusinessType.CORP.ToString())
+                {
+                    businessMembersList = Enum.GetValues(typeof(CorporationBusinessMembers)).Cast<CorporationBusinessMembers>().Select(x => new SelectListItem { Text = Utility.GetEnumDisplayName(x), Value = (x).ToString() }).ToList();
+                }
+                else if (businessType == BusinessType.EORG.ToString())
+                {
+                    businessMembersList = Enum.GetValues(typeof(EstateBusinessMembers)).Cast<EstateBusinessMembers>().Select(x => new SelectListItem { Text = Utility.GetEnumDisplayName(x), Value = (x).ToString() }).ToList();
+                }
+                else if (businessType == BusinessType.SPRO.ToString())
+                {
+                    businessMembersList = Enum.GetValues(typeof(SoleProprietorshipBusinessMembers)).Cast<SoleProprietorshipBusinessMembers>().Select(x => new SelectListItem { Text = Utility.GetEnumDisplayName(x), Value = (x).ToString() }).ToList();
+                }
+                return new JsonResult(new { data = businessMembersList });
+            }
+            return new JsonResult(false);
         }
         #endregion
     }

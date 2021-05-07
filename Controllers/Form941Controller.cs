@@ -7,13 +7,10 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using Nancy.Json;
-using Microsoft.AspNetCore.Http;
-using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using DotNetCoreSDK.Models.Business_Model;
-using System.Web.WebPages.Html;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace DotNetCoreSDK.Controllers
 {

@@ -417,11 +417,11 @@
                             <tr>
                                 <td class="labelName"><label class="control-label">Business Type:</label></td>
                                 <td>
-                                    @Html.DropDownListFor(model => model.BusinessType, Enum.GetValues(typeof(BusinessType)).Cast<BusinessType>().Select(x => new SelectListItem { Text = Utility.GetEnumDisplayName(x), Value = (x).ToString() }), new { @class = "form-control", @onchange = "ChangeBusinessMemberType(this);" })
+                                    @Html.DropDownListFor(model => model.BusinessType, Enum.GetValues(typeof(BusinessType)).Cast<BusinessType>().Select(x => new SelectListItem { Text = Utility.GetEnumDisplayName(x), Value = (x).ToString() }), "--Select--", new { @class = "form-control", @onchange = "ChangeBusinessMemberType(this);" })
 
                                 </td>
                                 <td class="labelName"><label style="margin-left:25%" class="control-label">Business Member Type:</label></td>
-                                <td class="fieldName">@Html.DropDownListFor(model => model.SigningAuthority.BusinessMemberType, Enum.GetValues(typeof(CorporationBusinessMembers)).Cast<CorporationBusinessMembers>().Select(x => new SelectListItem { Text = Utility.GetEnumDisplayName(x), Value = (x).ToString() }), new { @class = "form-control" })</td>
+                                <td class="fieldName">@Html.DropDownListFor(model => model.SigningAuthority.BusinessMemberType, Enum.GetValues(typeof(CorporationBusinessMembers)).Cast<CorporationBusinessMembers>().Select(x => new SelectListItem { Text = Utility.GetEnumDisplayName(x), Value = (x).ToString() }), "--Select--", new { @id = "businessmemeber", @class = "form-control" })</td>
                                 <td>
                                     <label style="margin-left:25%" class="control-label">
                                         Is Business Terminated?
@@ -442,10 +442,10 @@
                             <tr><td class="spacer10"></td></tr>
                             <tr>
                                 <td class="labelName"><label class="control-label">Kind Of Employer:</label></td>
-                                <td class="fieldName">@Html.DropDownListFor(model => model.KindOfEmployer, Enum.GetValues(typeof(KindOfEmployer)).Cast<KindOfEmployer>().Select(x => new SelectListItem { Text = Utility.GetEnumDisplayName(x), Value = (x).ToString() }), new { @class = "form-control" })</td>
+                                <td class="fieldName">@Html.DropDownListFor(model => model.KindOfEmployer, Enum.GetValues(typeof(KindOfEmployer)).Cast<KindOfEmployer>().Select(x => new SelectListItem { Text = Utility.GetEnumDisplayName(x), Value = (x).ToString() }), "--Select--", new { @class = "form-control" })</td>
 
                                 <td class="labelName"><label style="margin-left:25%" class="control-label">Kind Of Payer:</label></td>
-                                <td class="fieldName">@Html.DropDownListFor(model => model.KindOfPayer, Enum.GetValues(typeof(KindOfPayer)).Cast<KindOfPayer>().Select(x => new SelectListItem { Text = Utility.GetEnumDisplayName(x), Value = (x).ToString() }), new { @class = "form-control" })</td>
+                                <td class="fieldName">@Html.DropDownListFor(model => model.KindOfPayer, Enum.GetValues(typeof(KindOfPayer)).Cast<KindOfPayer>().Select(x => new SelectListItem { Text = Utility.GetEnumDisplayName(x), Value = (x).ToString() }), "--Select--", new { @class = "form-control" })</td>
                             </tr>
 
                             <tr><td class="spacer10"></td></tr>
@@ -476,7 +476,7 @@
                                 </td>
                                 <td class="labelName"><label id="state_lbl" style="margin-left:25%" class="control-label">State:</label></td>
                                 <td>
-                                    @Html.DropDownListFor(model => model.USAddress.State, USStates, new { @id = "State", @class = "form-control" })
+                                    @Html.DropDownListFor(model => model.USAddress.State, USStates, "--Select--", new { @id = "State", @class = "form-control" })
                                     @Html.TextBoxFor(model => model.ForeignAddress.ProvinceOrStateNm, new { @id = "ProvinceOrStateNm", @class = "form-control", @style = "display:none" })
                                 </td>
                             </tr>
@@ -594,5 +594,25 @@
                 $("#btnCreate").prop("disabled", false);
             }
         });
+    }
+
+    function ChangeBusinessMemberType(obj) {
+        var selectOption = "<option>--Select--</option>";
+        if ($(obj).val() != "") {
+            var businessType = $(obj).val();
+            $.getJSON("/Business/BusinessMembersList/", { id: businessType }, function (data) {
+                if (data != null && data != '' && data != undefined) {
+                    $("#businessmemeber").html("");
+                    $("#businessmemeber").append(selectOption);
+                    for (var i = 0; i < data.data.length; i++) {
+                        $("#businessmemeber").append($('<option></option>').val(data.data[i].value).html(data.data[i].text));
+                    }
+                }
+            });
+        }
+        else {
+            $("#businessmemeber").html("");
+            $("#businessmemeber").append(selectOption);
+        }
     }
 </script>
