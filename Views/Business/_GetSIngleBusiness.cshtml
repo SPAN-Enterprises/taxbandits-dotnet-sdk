@@ -1,0 +1,48 @@
+﻿@model DotNetCoreSDK.Models.Business_Model.BusinessGetResponse
+
+<div class="modal-header edit-modal-header">
+    <button type="button" class="close" data-dismiss="modal"></button>
+    <h4 id="form_heading" class="modal-title">
+        View (GET)
+    </h4>
+</div>
+    <div class="modal-body edit-modal-body white_bg pop_scroll">
+        <pre> @Html.Raw(ViewData["BusinessGetResponseJSON"] != null ? ViewData["BusinessGetResponseJSON"] : string.Empty)</pre>
+    </div>
+
+
+    @if (Model != null && Model.Errors != null)
+    {
+        <h3 style="font-size:medium;font-weight:600">Error Records</h3>
+        <div class="spacer15"> </div>
+        <table class="table table-bordered">
+            <thead class="thead-inverse">
+                <tr>
+                    <th>Code</th>
+                    <th>Name</th>
+                    <th>Message</th>
+                    <th>Type</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var itemerror in Model.Errors)
+                {
+                    <tr>
+                        <td>@itemerror.Code</td>
+                        <td>@itemerror.Name</td>
+                        <td>@itemerror.Message</td>
+                        <td>@itemerror.Type</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    
+}
+
+<div class="modal-footer edit-modal-footer mTopNo">
+    <div class="taC">
+        <button type="button" class="btn btn_md btn_second" data-dismiss="modal">
+            Okay
+        </button>
+    </div>
+</div>

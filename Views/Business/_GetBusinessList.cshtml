@@ -1,0 +1,109 @@
+﻿@model List<DotNetCoreSDK.Models.Business_Model.Business>
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="spacer25">
+    <div id="BusinessListDiv">
+        <h1 class="pageTitle">
+            Business List Returns
+        </h1>
+        <table class="table table-bordered">
+            <thead class="thead-inverse">
+                <tr>
+                    <th>Business Id</th>
+                    <th>Business Name</th>
+                    <th>EIN or SSN</th>
+                    <th>Email</th>                   
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null && Model.Any())
+                {
+                    int i = 1;
+                    foreach (var ListDetails in Model)
+                    {
+
+                        <tr>
+                            <td>
+                                @ListDetails.BusinessId
+                            </td>
+                            <td>
+                                @ListDetails.BusinessNm
+                            </td>
+                            <td>
+                                @ListDetails.EINorSSN
+                            </td>
+                            <td>
+                                @ListDetails.Email
+                            </td>                           
+                            <td>
+                                <button type="button" class="btn btn_sm btn_second" onclick="ViewBusiness('@ListDetails.BusinessId', '@ListDetails.EINorSSN')" id="btnapival_@i" style="background:dodgerblue!important">
+                                    View (GET)
+                                </button>
+                                <button type="button" class="btn btn_sm btn_second" onclick="DeleteBusiness('@ListDetails.BusinessId','@ListDetails.EINorSSN')" id="btnapival_@i" style="background:#ff0000!important">
+                                    Delete
+                                </button>
+                            </td>
+                        </tr>
+
+
+                        i++;
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="3" class="taC">No result found</td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+        <div class="taC">
+            <button type="button" class="btn btn_lg btn_primary" onclick="location.href='@Url.Action("Index", "Home")'" id="btnback">
+                <i class="fa fa-arrow-circle-left"></i>
+                Back
+            </button>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    function ViewBusiness(id,SelectedEinOrSSN) {
+        $.ajax({
+            url: "/Business/GetBusinessByBusinessId/",
+            cache: false,
+            data: { BusinessId: id, EinOrSSN: SelectedEinOrSSN },
+            success: function (data) {
+                $(".modal-dialog").addClass("edit-dialog");
+                $('#ModelBody').html(data);
+                $('#myModal').modal("show");
+                $("#TransmitSpinner").hide();
+            },
+            error: function (err) {
+                console.log(err.responseText);
+            }
+        });
+    }
+
+    function DeleteBusiness(id, SelectedEinOrSSN) {
+        $.ajax({
+            url: "/Business/Delete/",
+            cache: false,
+            data: { BusinessId: id, EinOrSSN: SelectedEinOrSSN  },
+            success: function (data) {
+                $(".modal-dialog").addClass("edit-dialog");
+                $('#ModelBody').html(data);
+                $('#myModal').modal("show");
+                $("#TransmitSpinner").hide();
+
+            },
+            error: function (err) {
+                console.log(err.responseText);
+            }
+        });
+    }
+
+</script>

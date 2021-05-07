@@ -1,0 +1,91 @@
+﻿@model DotNetCoreSDK.Models.Business_Model.BusinessDeleteResponse
+
+<div class="modal-header edit-modal-header">
+    <button type="button" class="close" data-dismiss="modal"></button>
+    <h4 id="form_heading" class="modal-title">
+        Business Delete Reponse Status
+    </h4>
+</div>
+<div class="modal-body edit-modal-body white_bg">
+    @if (Model != null && Model.StatusCode > 0)
+    {
+        <table class="responsive">
+            <tr>
+                <td class="labelName"><label class="control-label">Status Code:</label></td>
+                <td class="fieldName">@Model.StatusCode</td>
+            </tr>
+            <tr><td class="spacer10"></td></tr>
+            <tr>
+                <td class="labelName"><label class="control-label">Status Name:</label></td>
+                <td class="fieldName">@Model.StatusName</td>
+            </tr>
+            <tr><td class="spacer10"></td></tr>
+            <tr>
+                <td class="labelName"><label class="control-label">Status Message:</label></td>
+                <td class="fieldName">@Model.StatusMessage</td>
+            </tr>
+
+            <tr><td class="spacer10"></td></tr>
+            <tr>
+                <td class="labelName"><label class="control-label">Business Id:</label></td>
+                <td class="fieldName">@Model.BusinessId</td>
+            </tr>
+        </table>
+    }
+
+
+   
+
+    @if (Model != null && Model.Errors != null)
+    {
+        <h3 style="font-size:medium;font-weight:600">Error Records</h3>
+        <div class="spacer15"> </div>
+        <table class="table table-bordered">
+            <thead class="thead-inverse">
+                <tr>
+                    <th>Code</th>
+                    <th>Name</th>
+                    <th>Message</th>
+                    <th>Type</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var itemerror in Model.Errors)
+                {
+                    <tr>
+                        <td>@itemerror.Code</td>
+                        <td>@itemerror.Name</td>
+                        <td>@itemerror.Message</td>
+                        <td>@itemerror.Type</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+
+</div>
+
+<div class="modal-footer edit-modal-footer mTopNo">
+    <div class="taC">
+        <button type="button" class="btn btn_md btn_second" data-dismiss="modal" onclick="LoadBusinessList()">
+            Okay
+        </button>
+    </div>
+</div>
+<script>
+    function LoadBusinessList() {
+        $('#btnDropdown').html('Form 941 <span class="caret"></span>')
+        $.ajax({
+            url: "/Business/GetBusinessList",
+            cache: false,
+            data: {},
+            success: function (data) {
+                //$('#GetForm941EfileStatus').html("");
+                $('#BusinessListDiv').html(data);
+            },
+            error: function (err) {
+                console.log(err.responseText);
+            }
+        });
+    }
+</script>

@@ -1,0 +1,176 @@
+﻿@model List<DotNetCoreSDK.Models.Form_941.Form941ListData>
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="spacer25">
+    <div id="GetForm941EfileStatus">
+        <h1 class="pageTitle">          
+            Form 941 Returns
+        </h1>
+        <table class="table table-bordered">
+            <thead class="thead-inverse">
+                <tr>
+                    <th>SubmissionId</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null && Model.Any())
+                {
+                    int i = 1;
+                    foreach (var ListDetails in Model)
+                    {
+                        <tr>
+                            <td>
+                                @ListDetails.SubmissionId
+                            </td>
+                            @if (ListDetails.EFileStatus == "TRANSMITTED")
+                            {
+                                <td style="color:green">@ListDetails.EFileStatus</td>
+                            }
+                            else
+                            {
+                                <td style="color:dodgerblue">@ListDetails.EFileStatus</td>
+                            }
+                            <td>
+                                <button type="button" class="btn btn_sm btn_second" onclick="ViewForm941('@ListDetails.SubmissionId')" id="btnapival_@i" style="background:dodgerblue!important">
+                                    View (GET)
+                                </button>
+                                @if (ListDetails.EFileStatus != "TRANSMITTED")
+                                {
+                                    <button type="button" class="btn btn_sm btn_primary" onclick="Form941Transmit('@ListDetails.SubmissionId')" id="btnTransmit_@i">
+                                        Transmit
+                                        <i class="fa fa-spinner fa-spin" aria-hidden="true" id="Form941TransmitSpinner_@i" style="display:none"></i>
+                                    </button>
+                                }
+                                <button type="button" class="btn btn_sm btn_second" onclick="Form941EfileStatus('@ListDetails.SubmissionId')" id="btnEfilestatus_@i">
+                                    Get Status
+                                    <i class="fa fa-spinner fa-spin" aria-hidden="true" id="Form941statusSpinner_@i" style="display:none"></i>
+                                </button>
+                                <button type="button" class="btn btn_sm btn_second" onclick="DeleteForm941('@ListDetails.SubmissionId')" id="btnapival_@i" style="background:#ff0000!important">
+                                    Delete
+                                </button>
+                            </td>
+                        </tr>
+                        i++;
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="3" class="taC">No result found</td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+        <div class="taC">
+            <button type="button" class="btn btn_lg btn_primary" onclick="location.href='@Url.Action("Index", "Home")'" id="btnback">
+                <i class="fa fa-arrow-circle-left"></i>
+                Back
+            </button>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    $(function () {
+        // GetForm941EfileStatus();
+    });
+
+    function Form941Transmit(id) {
+        $("#Form941TransmitSpinner").show();
+        $.ajax({
+            url: "/Form941/_TransmitReturn/",
+            cache: false,
+            data: { submissionId: id },
+            success: function (data) {
+                $(".modal-dialog").addClass("edit-dialog");
+                $('#ModelBody').html(data);
+                $('#myModal').modal("show");
+                $("#TransmitSpinner").hide();
+                //GetEfileStatus();
+            },
+            error: function (err) {
+                console.log(err.responseText);
+            }
+        });
+    }
+
+    function Form941EfileStatus(id) {
+        $("#Form941statusSpinner").show();
+        $.ajax({
+            url: "/Form941/_GetEfileStatusResponse/",
+            cache: false,
+            data: { submissionId: id },
+            success: function (data) {
+                $(".modal-dialog").addClass("edit-dialog");
+                $('#ModelBody').html(data);
+                $('#myModal').modal("show");
+                $("#statusSpinner").hide();
+            },
+            error: function (err) {
+                console.log(err.responseText);
+            }
+        });
+    }
+
+    function ViewForm941(id) {
+        $.ajax({
+            url: "/Form941/GetForm941/",
+            cache: false,
+            data: { submissionId: id },
+            success: function (data) {
+                $(".modal-dialog").addClass("edit-dialog");
+                $('#ModelBody').html(data);
+                $('#myModal').modal("show");
+                $("#TransmitSpinner").hide();
+            },
+            error: function (err) {
+                console.log(err.responseText);
+            }
+        });
+    }
+
+    function DeleteForm941(id) {
+        $.ajax({
+            url: "/Form941/Delete/",
+            cache: false,
+            data: { submissionId: id },
+            success: function (data) {
+                $(".modal-dialog").addClass("edit-dialog");
+                $('#ModelBody').html(data);
+                $('#myModal').modal("show");
+                $("#TransmitSpinner").hide();
+
+            },
+            error: function (err) {
+                console.log(err.responseText);
+            }
+        });
+    }
+
+
+    function GetEfileStatus() {
+        $('#btnDropdown').html('Form941 <span class="caret"></span>')
+        $.ajax({
+            url: "/Efile/EFileStatus/",
+            cache: false,
+            data: {},
+            success: function (data) {
+                $('#GetEfileStatus').html("");
+                $('#GetEfileStatus').html(data);
+            },
+            error: function (err) {
+                console.log(err.responseText);
+            }
+        });
+    }
+
+
+
+
+</script>

@@ -1,0 +1,97 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+
+
+
+    <environment names="Development">
+        <script src="~/js/jquery.min.js"></script>
+        <link href="~/css/bootstrap.min.css" rel="stylesheet" />
+        <script src="~/js/bootstrap.min.js"></script>
+        <link href="~/css/Site.css" rel="stylesheet" />
+        <script src="~/js/modernizr.min.js"></script>
+        <link href="~/css/toastr.css" rel="stylesheet" />
+        <link href="~/css/font-awesome.css" rel="stylesheet" />
+        <script src="~/js/toastr.min.js"></script>
+
+
+
+        <link rel="icon" href="~/favicon.ico" type="image/x-icon">
+        <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600,600italic,700,800italic,800,700italic' rel='stylesheet' type='text/css'>
+    </environment>
+</head>
+<body>
+    <header class="navbar navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+            </div>
+            <div class="navbar-collapse collapse">
+                <div class="row">
+                    <div class="col-md-4">
+                        <img src="~/images/logoHead.png" />
+                    </div>
+                    <div class="col-md-8 floatR">
+                        <ul class="nav navbar-nav nav_menu floatR">
+                            <li id="home"><a href="/Home/Index">Home</a></li>
+                            <li class="dropdown">
+                                <span class="dropdown-toggle" type="button" data-toggle="dropdown">
+                                    Create Return
+                                    <span class="caret"></span>
+                                </span>
+                                <ul class="dropdown-menu">                                   
+                                    <li class="active" id="liform941return"><a href="/form941/form941return">Form 941</a></li>                                   
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <span class="dropdown-toggle" type="button" data-toggle="dropdown">
+                                    Business
+                                    <span class="caret"></span>
+                                </span>
+                                <ul class="dropdown-menu">
+                                    <li class="active" id="libusinessreturn"><a href="/Business/Business">Create Business</a></li>
+                                    <li class="active" id="libusinesslistreturn"><a href="/Business/GetBusinessList">Business List</a></li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <span class="dropdown-toggle" type="button" data-toggle="dropdown">
+                                    Return List
+                                    <span class="caret"></span>
+                                </span>
+                                <ul class="dropdown-menu">
+                                    <li class="active" id="liform941ListReturn"><a href="/form941/GetListForm941">Form941 Return List</a></li>
+                                </ul>
+                            </li>                           
+                        </ul>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </header>
+    <div class="clearfix"></div>
+    <div class="clearfix"></div>
+    <div class="body-content container">
+        @RenderBody()
+    </div>
+    <footer>
+    </footer>
+    @RenderSection("scripts", required: false)
+    <div class="modal" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-keyboard="false" data-backdrop="static">
+        <div class="modal-dialog" style="width:1000px">
+            <div class="modal-content" id="ModelBody">
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+</body>
+</html>
