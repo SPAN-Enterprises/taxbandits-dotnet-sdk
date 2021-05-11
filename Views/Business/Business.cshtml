@@ -1,6 +1,6 @@
-﻿@model DotNetCoreSDK.Models.Business_Model.Business
+﻿@model DotNetCoreSDK.Models.Business.Business
 @using DotNetCoreSDK.Models.Utilities
-@using DotNetCoreSDK.Models.BaseModels
+@using DotNetCoreSDK.Models.Base
 
 
 
@@ -384,8 +384,8 @@
                                 <td class="fieldName">@Html.TextBoxFor(model => model.BusinessNm, new { @class = "form-control" })</td>
                                 <td class="labelName"><label style="margin-left:25%" class="control-label">Trade Name:</label></td>
                                 <td class="fieldName">@Html.TextBoxFor(model => model.TradeNm, new { @class = "form-control" })</td>
-                                <td class="labelName"> <label style="margin-left:25%" class="control-label">EIN or SSN:</label> </td>
-                                <td class="fieldName">
+                                <td class="labelName"> <label style="margin-left:25%;position:relative;top:1px;" class="control-label">EIN or SSN:</label> </td>
+                                <td class="fieldName" style="top:11px;">
                                     @Html.TextBoxFor(model => model.EINorSSN, new { @class = "form-control", @maxlength = "9" })
                                     <span>Is EIN?</span>
                                     @Html.CheckBoxFor(model => model.IsEIN, new { @class = "css-checkbox", id = "chkIsEIN" })
@@ -422,7 +422,7 @@
                                 </td>
                                 <td class="labelName"><label style="margin-left:25%" class="control-label">Business Member Type:</label></td>
                                 <td class="fieldName">@Html.DropDownListFor(model => model.SigningAuthority.BusinessMemberType, Enum.GetValues(typeof(CorporationBusinessMembers)).Cast<CorporationBusinessMembers>().Select(x => new SelectListItem { Text = Utility.GetEnumDisplayName(x), Value = (x).ToString() }), "--Select--", new { @id = "businessmemeber", @class = "form-control" })</td>
-                                <td>
+                                <td  class="labelName">
                                     <label style="margin-left:25%" class="control-label">
                                         Is Business Terminated?
                                     </label>
@@ -600,7 +600,7 @@
         var selectOption = "<option>--Select--</option>";
         if ($(obj).val() != "") {
             var businessType = $(obj).val();
-            $.getJSON("/Business/BusinessMembersList/", { id: businessType }, function (data) {
+            $.getJSON("/Business/BusinessMembersType/", { SelectedBusinessTypeVal: businessType }, function (data) {
                 if (data != null && data != '' && data != undefined) {
                     $("#businessmemeber").html("");
                     $("#businessmemeber").append(selectOption);

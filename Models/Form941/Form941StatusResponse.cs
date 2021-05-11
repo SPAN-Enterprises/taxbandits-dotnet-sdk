@@ -1,6 +1,6 @@
 ﻿
 
-namespace DotNetCoreSDK.Models.Form_941
+namespace DotNetCoreSDK.Models.Form941
 {
     public class Form941StatusResponse : Form941ReturnResponse
     {

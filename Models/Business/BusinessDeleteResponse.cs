@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace DotNetCoreSDK.Models.Business_Model
+namespace DotNetCoreSDK.Models.Business
 {
     public class BusinessDeleteResponse: BaseResponseStatus
     {

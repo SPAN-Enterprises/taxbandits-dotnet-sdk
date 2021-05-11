@@ -1,6 +1,6 @@
 ﻿using DotNetCoreSDK.Models.Utilities;
-using DotNetCoreSDK.Models.BaseModels;
-using DotNetCoreSDK.Models.Form_941;
+using DotNetCoreSDK.Models.Base;
+using DotNetCoreSDK.Models.Form941;
 using DotNetCoreSDK.Models.Form941CoreModel;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -9,7 +9,7 @@ using System.Collections.Generic;
 using System.Net.Http;
 using Nancy.Json;
 using System.Linq;
-using DotNetCoreSDK.Models.Business_Model;
+using DotNetCoreSDK.Models.Business;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace DotNetCoreSDK.Controllers
@@ -54,7 +54,7 @@ namespace DotNetCoreSDK.Controllers
                         State = "SC",
                         ZipCd = "29730"
                     },
-                    SigningAuthority = new DotNetCoreSDK.Models.BaseModels.SigningAuthority
+                    SigningAuthority = new DotNetCoreSDK.Models.Base.SigningAuthority
                     {
                         BusinessMemberType = "ADMINISTRATOR",
                         Phone = "1234564390",
@@ -528,39 +528,7 @@ namespace DotNetCoreSDK.Controllers
         }
         #endregion
 
-        #region  Business Members List
-        [HttpGet]
-        public ActionResult BusinessMembersList(string id)
-        {
-            var businessType = id;
-            if (!string.IsNullOrWhiteSpace(businessType))
-            {
-                var businessMembersList = new List<SelectListItem>();
-                if (businessType == BusinessType.ESTE.ToString())
-                {
-                    businessMembersList = Enum.GetValues(typeof(EstateBusinessMembers)).Cast<EstateBusinessMembers>().Select(x => new SelectListItem { Text = Utility.GetEnumDisplayName(x), Value = (x).ToString() }).ToList();
-                }
-                else if (businessType == BusinessType.PART.ToString())
-                {
-                    businessMembersList = Enum.GetValues(typeof(PartnershipBusinessMembers)).Cast<PartnershipBusinessMembers>().Select(x => new SelectListItem { Text = Utility.GetEnumDisplayName(x), Value = (x).ToString() }).ToList();
-                }
-                else if (businessType == BusinessType.CORP.ToString())
-                {
-                    businessMembersList = Enum.GetValues(typeof(CorporationBusinessMembers)).Cast<CorporationBusinessMembers>().Select(x => new SelectListItem { Text = Utility.GetEnumDisplayName(x), Value = (x).ToString() }).ToList();
-                }
-                else if (businessType == BusinessType.EORG.ToString())
-                {
-                    businessMembersList = Enum.GetValues(typeof(EstateBusinessMembers)).Cast<EstateBusinessMembers>().Select(x => new SelectListItem { Text = Utility.GetEnumDisplayName(x), Value = (x).ToString() }).ToList();
-                }
-                else if (businessType == BusinessType.SPRO.ToString())
-                {
-                    businessMembersList = Enum.GetValues(typeof(SoleProprietorshipBusinessMembers)).Cast<SoleProprietorshipBusinessMembers>().Select(x => new SelectListItem { Text = Utility.GetEnumDisplayName(x), Value = (x).ToString() }).ToList();
-                }
-                return new JsonResult(new { data = businessMembersList });
-            }
-            return new JsonResult(false) ;
-        }
-        #endregion
+       
 
     }
 }

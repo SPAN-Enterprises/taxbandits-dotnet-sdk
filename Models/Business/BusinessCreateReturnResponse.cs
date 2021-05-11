@@ -1,11 +1,11 @@
-﻿using DotNetCoreSDK.Models.BaseModels;
+﻿using DotNetCoreSDK.Models.Base;
 using DotNetCoreSDK.Models.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace DotNetCoreSDK.Models.Business_Model
+namespace DotNetCoreSDK.Models.Business
 {
     public class BusinessCreateReturnResponse 
     {

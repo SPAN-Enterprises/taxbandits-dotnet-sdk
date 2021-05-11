@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Net.Http;
-using DotNetCoreSDK.Models.BaseModels;
+using DotNetCoreSDK.Models.Base;
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.AspNetCore.Http;
 using System.Net.Http.Headers;

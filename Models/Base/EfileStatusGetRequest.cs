@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace DotNetCoreSDK.Models.BaseModels
+namespace DotNetCoreSDK.Models.Base
 {
     public class EfileStatusGetRequest
     {

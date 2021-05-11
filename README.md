@@ -8,8 +8,13 @@ TaxBandits API SDK written on C# in .Net Core framework to show how to integrate
 - List
 - Delete
 - Status
+### Business
+- Create 
+- Get
+- List
+- Delete
 ## Configuration
- You need to signup with TaxBandits Sandbox Developer Console at https://sandbox.taxbandits.com to get the keys to run
+ You need to signup with TaxBandits Sandbox Developer Console at https://sandbox.taxbandits.com/User/Register to get the keys to run
 the SDK. See below for more directions:
 ### To get the sandbox keys:
 - Go to Sandbox Developer console: https://sandbox.taxbandits.com
@@ -21,7 +26,7 @@ the SDK. See below for more directions:
 - Sandbox Application URL: https://testapp.taxbandits.com 
 ### How to use?
 Below are the steps to integrate with TaxBandits API:
-1. Sign up for a new developer account in https://sandbox.taxbandits.com/ 
+1. Sign up for a new developer account in https://sandbox.taxbandits.com/User/Register
 2. Navigate to **Settings** from the left menu and choose **API Credentials**
 3. You can find your Client Id, Client Secret and User Token in the API Credentials page.
 4. Open appsettings.json and replace with your Client Id, Client Secret and User Token under appSettings tag.

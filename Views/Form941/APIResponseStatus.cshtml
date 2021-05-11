@@ -1,4 +1,4 @@
-﻿@model DotNetCoreSDK.Models.Form_941.Form941CreateReturnResponse
+﻿@model DotNetCoreSDK.Models.Form941.Form941CreateReturnResponse
 <div class="modal-header edit-modal-header">
     <button type="button" class="close" data-dismiss="modal"></button>
     <h4 id="form_heading" class="modal-title">
@@ -146,7 +146,7 @@
 
 <div class="modal-footer edit-modal-footer mTopNo">
     <div class="taC">
-        <button type="button" class="btn btn_md btn_second" data-dismiss="modal">
+        <button type="button" class="btn btn_md btn_second" data-dismiss="modal" onclick="location.href='@Url.Action("GetListForm941", "form941")'">
             Okay
         </button>
     </div>

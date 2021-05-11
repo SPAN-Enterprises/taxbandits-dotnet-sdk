@@ -1,4 +1,4 @@
-﻿using DotNetCoreSDK.Models.Form_941;
+﻿using DotNetCoreSDK.Models.Form941;
 using System.Collections.Generic;
 namespace DotNetCoreSDK.Models.Form941CoreModel
 {

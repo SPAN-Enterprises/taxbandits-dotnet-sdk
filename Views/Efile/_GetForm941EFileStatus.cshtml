@@ -1,4 +1,4 @@
-﻿@model List<DotNetCoreSDK.Models.Form_941.Form941ListData>
+﻿@model List<DotNetCoreSDK.Models.Form941.Form941ListData>
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -78,7 +78,8 @@
 <script type="text/javascript">
 
     $(function () {
-        // GetForm941EfileStatus();
+        $(".nav_menu li").removeClass('active');
+        $("#liform941ListReturn").addClass('active'); 
     });
 
     function Form941Transmit(id) {

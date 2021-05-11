@@ -4,7 +4,7 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
 
-namespace DotNetCoreSDK.Models.Business_Model
+namespace DotNetCoreSDK.Models.Business
 {
     public class BusinessListResponse
     {

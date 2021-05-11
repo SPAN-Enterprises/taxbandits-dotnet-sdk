@@ -1,5 +1,5 @@
-﻿using DotNetCoreSDK.Models.BaseModels;
-using DotNetCoreSDK.Models.Form_941;
+﻿using DotNetCoreSDK.Models.Base;
+using DotNetCoreSDK.Models.Form941;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using System;

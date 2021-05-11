@@ -1,4 +1,4 @@
-﻿using DotNetCoreSDK.Models.Business_Model;
+﻿using DotNetCoreSDK.Models.Business;
 using System;
 using System.Collections.Generic;
 using System.Linq;

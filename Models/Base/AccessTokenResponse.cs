@@ -1,9 +1,9 @@
-﻿using DotNetCoreSDK.Models.Form_941;
+﻿using DotNetCoreSDK.Models.Form941;
 using DotNetCoreSDK.Models.Utilities;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 
-namespace DotNetCoreSDK.Models.BaseModels
+namespace DotNetCoreSDK.Models.Base
 {
    
     public class AccessTokenResponse:BaseResponseStatus

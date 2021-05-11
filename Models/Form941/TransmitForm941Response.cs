@@ -1,6 +1,6 @@
-﻿using DotNetCoreSDK.Models.Form_941;
+﻿using DotNetCoreSDK.Models.Form941;
 using System;
-namespace DotNetCoreSDK.Models.Form_941
+namespace DotNetCoreSDK.Models.Form941
 {
     public class TransmitForm941Response : Form941ReturnResponse
     {

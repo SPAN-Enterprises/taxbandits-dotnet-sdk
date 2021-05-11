@@ -1,6 +1,6 @@
-﻿@model DotNetCoreSDK.Models.Form_941.Form941Data
-@using DotNetCoreSDK.Models.BaseModels
-@using DotNetCoreSDK.Models.Form_941
+﻿@model DotNetCoreSDK.Models.Form941.Form941Data
+@using DotNetCoreSDK.Models.Base
+@using DotNetCoreSDK.Models.Form941
 @using DotNetCoreSDK.Models.Form941CoreModel
 @using DotNetCoreSDK.Models.Utilities
 
@@ -375,11 +375,66 @@
     new SelectListItem { Text = "2021", Value = "2021" }
     };
 
+
+    List<SelectListItem> BusinessAddressBook = new List<SelectListItem> {
+    new SelectListItem { Text = "", Value = "" }
+    };
+
     List<SelectListItem> quarter = new List<SelectListItem> {
         new SelectListItem { Text = "Q1", Value = "Q1" },
         new SelectListItem { Text = "Q2", Value = "Q2" },
         new SelectListItem { Text = "Q3", Value = "Q3" },
         new SelectListItem { Text = "Q4", Value = "Q4" }
+    };
+
+    List<SelectListItem> BusinessMemeberType = new List<SelectListItem> {
+        new SelectListItem { Text = "Administrator", Value = "ADMINISTRATOR" },
+        new SelectListItem { Text = "Executor", Value = "EXECUTOR" },
+        new SelectListItem { Text = "Trustee", Value = "TRUSTEE" },
+        new SelectListItem { Text = "Fiduciary", Value = "FIDUCIARY" },
+        new SelectListItem { Text = "Partner", Value = "PARTNER" },
+        new SelectListItem { Text = "General Partner", Value = "GENERALPARTNER" },
+        new SelectListItem { Text = "Limited Partner", Value = "LIMITEDPARTNER" },
+        new SelectListItem { Text = "LLC Member", Value = "LLCMEMBER" },
+        new SelectListItem { Text = "Manager", Value = "MANAGINGMEMBER" },
+        new SelectListItem { Text = "Member", Value = "MEMBER" },
+        new SelectListItem { Text = "Managing Member", Value = "Managing Member" },
+        new SelectListItem { Text = "President", Value = "PRESIDENT" },
+        new SelectListItem { Text = "Owner", Value = "OWNER" },
+        new SelectListItem { Text = "Tax Matter Partner", Value = "TAXMATTERPARTNER" },
+        new SelectListItem { Text = "Vice President", Value = "VICEPRESIDENT" },
+        new SelectListItem { Text = "Treasurer", Value = "TREASURER" },
+        new SelectListItem { Text = "Assistant Treasurer", Value = "ASSISTANTTREASURER" },
+        new SelectListItem { Text = "Chief Accounting Officer", Value = "CHIEFACCOUNTINGOFFICER" },
+        new SelectListItem { Text = "Tax Officer", Value = "TAXOFFICER" },
+        new SelectListItem { Text = "Chief Operating Officer", Value = "CHIEFOPERATINGOFFICER" },
+        new SelectListItem { Text = "Corporate Secretary", Value = "CORPORATESECRETARY" },
+        new SelectListItem { Text = "Secretary", Value = "SECRETARY" },
+        new SelectListItem { Text = "Secretary Treasurer", Value = "SECRETARYTREASURER" },
+        new SelectListItem { Text = "Corporate Officer", Value = "CORPORATEOFFICER" },
+        new SelectListItem { Text = "Corporate Treasurer", Value = "CORPORATETREASURER" },
+        new SelectListItem { Text = "Chief executive Officer", Value = "CHIEFEXECUTIVEOFFICER" },
+        new SelectListItem { Text = "Chief financial Officer", Value = "CHIEFFINANCIALOFFICER" },
+        new SelectListItem { Text = "Executive Director", Value = "EXECUTIVEDIRECTOR" },
+        new SelectListItem { Text = "Director", Value = "DIRECTOR" },
+        new SelectListItem { Text = "Chairman", Value = "CHAIRMAN" },
+        new SelectListItem { Text = "Executive Administrator", Value = "EXECUTIVEADMINISTRATOR" },
+        new SelectListItem { Text = "Receiver", Value = "RECEIVER" },
+
+        new SelectListItem { Text = "Pastor", Value = "PASTOR" },
+        new SelectListItem { Text = "Assistant to Religious Leader", Value = "ASSISTANTTORELIGIOUSLEADER" },
+        new SelectListItem { Text = "Reverend", Value = "REVEREND" },
+        new SelectListItem { Text = "Priest", Value = "PRIEST" },
+        new SelectListItem { Text = "Minister", Value = "MINISTER" },
+        new SelectListItem { Text = "Rabbi", Value = "RABBI" },
+        new SelectListItem { Text = "Leader of Religious Organization", Value = "LEADEROFRELIGIOUSORGANIZATION" },
+        new SelectListItem { Text = "Secretary", Value = "SECRETARY" },
+        new SelectListItem { Text = "Director of Taxation", Value = "DIRECTOROFTAXATION" },
+        new SelectListItem { Text = "Director of Personnel", Value = "DIRECTOROFPERSONNEL" },
+
+        new SelectListItem { Text = "Sole Poprietor", Value = "SOLEPROPRIETOR" },
+        new SelectListItem { Text = "Sole Member", Value = "SOLEMEMBER" }
+
     };
 
     List<SelectListItem> signatureType = new List<SelectListItem> {
@@ -411,7 +466,10 @@
             <tr><td class="spacer10"></td></tr>
         </table>
         <div class="panel-group" id="accordion">
+
+            @*Business Information*@
             <div class="panel panel-default">
+
                 <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#collapse1">
                     <h4 class="panel-title">
                         Employer Information
@@ -419,73 +477,77 @@
                 </div>
                 <div id="collapse1" class="panel-collapse collapse in">
                     <div class="panel-body">
-                        @*<div>
+                        <div>
                             <label id="">Select Employer from your address book:</label>
-                            @Html.DropDownListFor(model => model.ReturnHeader.Business.BusinessType, signatureType, "--Select--", new { @class = "form-control", @onchange = "ChangeBusinessMemberType(this);" })
+                            <select id="ddlBusinessAddressbook" name="parent" class="form-control" style="width:250px" onchange="GetBusinessDtls()">
+                                <option value="">Loading Address Book.......</option>
+                            </select>
                         </div>
                         <div class="searchBtmLine position-relative mTop45" id="ORDiv">
                             <hr>
                             <span>OR</span>
-                        </div>*@
+                        </div>
                         <table class="responsive">
                             <tr>
                                 <td class="labelName"><label class="control-label">Employer Name:</label></td>
-                                <td class="fieldName">@Html.TextBoxFor(model => model.ReturnHeader.Business.BusinessNm, new { @class = "form-control" })</td>
+                                <td class="fieldName">@Html.TextBoxFor(model => model.ReturnHeader.Business.BusinessNm, new { id = "BusinessNm", @class = "form-control" })</td>
                                 <td class="labelName"><label class="control-label">Employer Type:</label></td>
                                 <td>
-                                    @Html.DropDownListFor(model => model.ReturnHeader.Business.BusinessType, Enum.GetValues(typeof(BusinessType)).Cast<BusinessType>().Select(x => new SelectListItem { Text = Utility.GetEnumDisplayName(x), Value = (x).ToString() }), "--Select--", new { @class = "form-control", @onchange = "ChangeBusinessMemberType(this);" })
+                                    @Html.DropDownListFor(model => model.ReturnHeader.Business.BusinessType, Enum.GetValues(typeof(BusinessType)).Cast<BusinessType>().Select(x => new SelectListItem { Text = Utility.GetEnumDisplayName(x), Value = (x).ToString() }), "--Select--", new { id = "BusinessType", @class = "form-control" })
                                 </td>
                             </tr>
                             <tr><td class="spacer10"></td></tr>
                             <tr>
                                 <td class="labelName"> <label class="control-label">EIN:</label> </td>
-                                <td class="fieldName">@Html.TextBoxFor(model => model.ReturnHeader.Business.EINorSSN, new { @class = "form-control", @maxlength = "9" })</td>
+                                <td class="fieldName">@Html.TextBoxFor(model => model.ReturnHeader.Business.EINorSSN, new { id = "EINorSSN", @class = "form-control", maxlength = "9" })</td>
                                 <td class="labelName"><label class="control-label">Address Line1:</label></td>
-                                <td class="fieldName">@Html.TextBoxFor(model => model.ReturnHeader.Business.USAddress.Address1, new { @class = "form-control" })</td>
+                                <td class="fieldName">@Html.TextBoxFor(model => model.ReturnHeader.Business.USAddress.Address1, new { id = "Address1", @class = "form-control" })</td>
                             </tr>
                             <tr><td class="spacer10"></td></tr>
 
                             <tr>
                                 <td class="labelName"><label class="control-label">Address Line2:</label></td>
-                                <td class="fieldName">@Html.TextBoxFor(model => model.ReturnHeader.Business.USAddress.Address2, new { @class = "form-control" })</td>
+                                <td class="fieldName">@Html.TextBoxFor(model => model.ReturnHeader.Business.USAddress.Address2, new { id = "Address2", @class = "form-control" })</td>
                                 <td class="labelName"><label class="control-label">City:</label></td>
-                                <td class="fieldName">@Html.TextBoxFor(model => model.ReturnHeader.Business.USAddress.City, new { @class = "form-control" })</td>
+                                <td class="fieldName">@Html.TextBoxFor(model => model.ReturnHeader.Business.USAddress.City, new { id = "City", @class = "form-control" })</td>
                             </tr>
                             <tr><td class="spacer10"></td></tr>
                             <tr>
                                 <td class="labelName"><label class="control-label">State:</label></td>
                                 <td>
-                                    @Html.DropDownListFor(model => model.ReturnHeader.Business.USAddress.State, USStates, "Select State", new { @class = "form-control" })
+                                    @Html.DropDownListFor(model => model.ReturnHeader.Business.USAddress.State, USStates, "Select State", new { id = "State", @class = "form-control" })
                                 </td>
                                 <td class="labelName"><label class="control-label">Zip Code:</label></td>
-                                <td class="fieldName">@Html.TextBoxFor(model => model.ReturnHeader.Business.USAddress.ZipCd, new { @class = "form-control", @maxlength = "5" })</td>
+                                <td class="fieldName">@Html.TextBoxFor(model => model.ReturnHeader.Business.USAddress.ZipCd, new { id = "ZipCd", @class = "form-control", maxlength = "5" })</td>
                             </tr>
                             <tr><td class="spacer10"></td></tr>
                             <tr>
                                 <td class="labelName"><label class="control-label">Contact Name:</label></td>
-                                <td class="fieldName">@Html.TextBoxFor(model => model.ReturnHeader.Business.ContactNm, new { @class = "form-control" })</td>
+                                <td class="fieldName">@Html.TextBoxFor(model => model.ReturnHeader.Business.ContactNm, new { id = "ContactNm", @class = "form-control" })</td>
 
                                 <td class="labelName"><label class="control-label">Phone Number:</label></td>
-                                <td class="fieldName">@Html.TextBoxFor(model => model.ReturnHeader.Business.Phone, new { @class = "form-control", @maxlength = "10" })</td>
+                                <td class="fieldName">@Html.TextBoxFor(model => model.ReturnHeader.Business.Phone, new { id = "Phone", @class = "form-control", maxlength = "10" })</td>
                             </tr>
                             <tr><td class="spacer10"></td></tr>
                             <tr>
                                 <td class="labelName"><label class="control-label">Email Address:</label></td>
-                                <td class="fieldName">@Html.TextBoxFor(model => model.ReturnHeader.Business.Email, new { @class = "form-control" })</td>
+                                <td class="fieldName">@Html.TextBoxFor(model => model.ReturnHeader.Business.Email, new { id = "Email", @class = "form-control" })</td>
                                 <td class="labelName"><label class="control-label">Employer Title :</label></td>
-                                <td class="fieldName">@Html.DropDownListFor(model => model.ReturnHeader.Business.SigningAuthority.BusinessMemberType, Enum.GetValues(typeof(EstateBusinessMembers)).Cast<EstateBusinessMembers>().Select(x => new SelectListItem { Text = Utility.GetEnumDisplayName(x), Value = (x).ToString() }), "--Select--", new { @id = "businessmemeber", @class = "form-control" })</td>
+                                <td class="fieldName">@Html.DropDownListFor(model => model.ReturnHeader.Business.SigningAuthority.BusinessMemberType, BusinessMemeberType, "--Select--", new { id = "businessmemeber", @class = "form-control" })</td>
                             </tr>
                             <tr><td class="spacer10"></td></tr>
                             <tr>
                                 <td class="labelName"><label class="control-label">Employer Signatory Name:</label></td>
-                                <td class="fieldName">@Html.TextBoxFor(model => model.ReturnHeader.Business.SigningAuthority.Name, new { @class = "form-control" })</td>
+                                <td class="fieldName">@Html.TextBoxFor(model => model.ReturnHeader.Business.SigningAuthority.Name, new { id = "SigningAuthrtyName", @class = "form-control" })</td>
                                 <td class="labelName"><label class="control-label">Employer Signatory Phone:</label></td>
-                                <td class="fieldName">@Html.TextBoxFor(model => model.ReturnHeader.Business.SigningAuthority.Phone, new { @class = "form-control", @maxlength = "10" })</td>
+                                <td class="fieldName">@Html.TextBoxFor(model => model.ReturnHeader.Business.SigningAuthority.Phone, new { id = "SigningAuthrtyPhone", @class = "form-control", maxlength = "10" })</td>
                             </tr>
                         </table>
                     </div>
                 </div>
             </div>
+
+            @*Form941 Information*@
             <div class="panel panel-default">
                 <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#collapse2">
                     <h4 class="panel-title">
@@ -496,22 +558,22 @@
                     <div class="panel-body">
                         <table class="responsiveModifiedClass">
                             <tr>
-                                <td class="labelName" style="width:60%;"><label class="control-label"><span>1</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Number of employees who received wages, tips, or other compensation for the pay periodincluding: Mar. 12 (Quarter 1), June 12 (Quarter 2), Sept. 12 (Quarter 3), or Dec. 12 (Quarter 4):</label></td>
+                                <td class="labelName" style="width:60%;"><label class="control-label"><span>1.</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Number of employees who received wages, tips, or other compensation for the pay periodincluding: Mar. 12 (Quarter 1), June 12 (Quarter 2), Sept. 12 (Quarter 3), or Dec. 12 (Quarter 4):</label></td>
                                 <td class="fieldName">@Html.TextBoxFor(model => model.ReturnData.Form941.EmployeeCnt, new { @id = "Line1", @maxlength = "7", @class = "form-control", @style = "text-align: right;" })</td>
                             </tr>
                             <tr><td class="spacer10"></td></tr>
                             <tr>
-                                <td class="labelName"><label class="control-label"><span>2</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Wages, tips, and other compensation:</label></td>
+                                <td class="labelName"><label class="control-label"><span>2.</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Wages, tips, and other compensation:</label></td>
                                 <td class="fieldName">@Html.TextBoxFor(model => model.ReturnData.Form941.WagesAmt, new { @id = "Line2", @maxlength = "17", @placeholder = "0.00", @onfocus = "txtFocus(this)", @onblur = "txtBlur(this)", @class = "form-control", @style = "text-align: right;" })</td>
                             </tr>
                             <tr><td class="spacer10"></td></tr>
                             <tr>
-                                <td class="labelName"><label class="control-label"><span>3</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Federal income tax withheld from wages, tips, and other compensation:</label></td>
+                                <td class="labelName"><label class="control-label"><span>3.</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Federal income tax withheld from wages, tips, and other compensation:</label></td>
                                 <td class="fieldName">@Html.TextBoxFor(model => model.ReturnData.Form941.FedIncomeTaxWHAmt, new { @id = "Line3", @maxlength = "17", @placeholder = "0.00", @onfocus = "txtFocus(this)", @onblur = "txtBlur(this)", @onchange = "CalculateForm941()", @class = "form-control", @style = "text-align: right;" })</td>
                             </tr>
                             <tr><td class="spacer10"></td></tr>
                             <tr>
-                                <td class="labelName"><label class="control-label"><span>4</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If no wages, tips, and other compensation are subject to social security or Medicare tax?</label></td>
+                                <td class="labelName"><label class="control-label"><span>4.</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If no wages, tips, and other compensation are subject to social security or Medicare tax?</label></td>
                                 <td class="fieldName">
                                     <div class="radio">
                                         <label>
@@ -530,7 +592,7 @@
                                 <td colspan="2">
                                     <table class="responsiveModifiedClass">
                                         <tr>
-                                            <td class="labelName"><label class="control-label"><span>5a</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Taxable social security wages:</label></td>
+                                            <td class="labelName"><label class="control-label"><span>5a.</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Taxable social security wages:</label></td>
                                             <td class="fieldName">
                                                 @Html.TextBoxFor(model => model.ReturnData.Form941.Line5aInitialAmt, new { @id = "Line5aInitialAmount", @maxlength = "17", @placeholder = "0.00", @onfocus = "txtFocus(this)", @onblur = "txtBlur(this)", @class = "form-control", @onchange = "CalculateForm941()", @style = "text-align: right;" })
                                                 <span> × 0.124 = </span>
@@ -539,7 +601,7 @@
                                         </tr>
                                         <tr><td class="spacer10"></td></tr>
                                         <tr>
-                                            <td class="labelName"><label class="control-label"><span>5a (i)</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Qualified sick leave wages:</label></td>
+                                            <td class="labelName"><label class="control-label"><span>5a (i).</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Qualified sick leave wages:</label></td>
                                             <td class="fieldName">
                                                 @Html.TextBoxFor(model => model.ReturnData.COVIDSection.Line5a1InitialAmount, new { @id = "Line5a1InitialAmount", @maxlength = "17", @placeholder = "0.00", @onfocus = "txtFocus(this)", @onblur = "txtBlur(this)", @onchange = "CalculateForm941()", @class = "form-control", @style = "text-align: right;" })
                                                 <span> × 0.062 = </span>
@@ -548,7 +610,7 @@
                                         </tr>
                                         <tr><td class="spacer10"></td></tr>
                                         <tr>
-                                            <td class="labelName"><label class="control-label"><span>5a (ii)</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Qualified family leave wages:</label></td>
+                                            <td class="labelName"><label class="control-label"><span>5a (ii).</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Qualified family leave wages:</label></td>
                                             <td class="fieldName">
                                                 @Html.TextBoxFor(model => model.ReturnData.COVIDSection.Line5a2InitialAmount, new { @id = "Line5a2InitialAmount", @maxlength = "17", @placeholder = "0.00", @onfocus = "txtFocus(this)", @onblur = "txtBlur(this)", @onchange = "CalculateForm941()", @class = "form-control", @style = "text-align: right;" })
                                                 <span> × 0.062 = </span>
@@ -557,7 +619,7 @@
                                         </tr>
                                         <tr><td class="spacer10"></td></tr>
                                         <tr>
-                                            <td class="labelName"><label class="control-label"><span>5b</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Taxable social security tips:</label></td>
+                                            <td class="labelName"><label class="control-label"><span>5b.</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Taxable social security tips:</label></td>
                                             <td class="fieldName">
                                                 @Html.TextBoxFor(model => model.ReturnData.Form941.Line5bInitialAmt, new { @id = "Line5bInitialAmount", @maxlength = "17", @placeholder = "0.00", @onfocus = "txtFocus(this)", @onblur = "txtBlur(this)", @onchange = "CalculateForm941()", @class = "form-control", @style = "text-align: right;" })
                                                 <span> × 0.124 = </span>
@@ -566,7 +628,7 @@
                                         </tr>
                                         <tr><td class="spacer10"></td></tr>
                                         <tr>
-                                            <td class="labelName"><label class="control-label"><span>5c</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Taxable Medicare wages & tips:</label></td>
+                                            <td class="labelName"><label class="control-label"><span>5c.</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Taxable Medicare wages & tips:</label></td>
                                             <td class="fieldName">
                                                 @Html.TextBoxFor(model => model.ReturnData.Form941.Line5cInitialAmt, new { @id = "Line5cInitialAmount", @maxlength = "17", @placeholder = "0.00", @onfocus = "txtFocus(this)", @onblur = "txtBlur(this)", @onchange = "CalculateForm941()", @class = "form-control", @style = "text-align: right;" })
                                                 <span> × 0.029 = </span>
@@ -575,7 +637,7 @@
                                         </tr>
                                         <tr><td class="spacer10"></td></tr>
                                         <tr>
-                                            <td class="labelName"><label class="control-label"><span>5d</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Taxable wages & tips subject to Additional Medicare Tax:</label></td>
+                                            <td class="labelName"><label class="control-label"><span>5d.</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Taxable wages & tips subject to Additional Medicare Tax:</label></td>
                                             <td class="fieldName">
                                                 @Html.TextBoxFor(model => model.ReturnData.Form941.Line5dInitialAmt, new { @id = "Line5dInitialAmount", @maxlength = "17", @placeholder = "0.00", @onfocus = "txtFocus(this)", @onblur = "txtBlur(this)", @onchange = "CalculateForm941()", @class = "form-control", @style = "text-align: right;" })
                                                 <span> × 0.009 = </span>
@@ -584,12 +646,12 @@
                                         </tr>
                                         <tr><td class="spacer10"></td></tr>
                                         <tr>
-                                            <td class="labelName"><label class="control-label"><span>5e</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Total social security and Medicare taxes:</label></td>
+                                            <td class="labelName"><label class="control-label"><span>5e.</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Total social security and Medicare taxes:</label></td>
                                             <td class="fieldName">@Html.TextBoxFor(model => model.ReturnData.Form941.Line5e, new { @id = "Line5e", @maxlength = "17", @placeholder = "0.00", @onfocus = "txtFocus(this)", @onblur = "txtBlur(this)", @onchange = "CalculateForm941()", @readonly = true, @class = "form-control", @style = "text-align: right;" })</td>
                                         </tr>
                                         <tr><td class="spacer10"></td></tr>
                                         <tr>
-                                            <td class="labelName"><label class="control-label"><span>5f</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Section 3121(q) Notice and Demand—Tax due on unreported tips:</label></td>
+                                            <td class="labelName"><label class="control-label"><span>5f.</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Section 3121(q) Notice and Demand—Tax due on unreported tips:</label></td>
                                             <td class="fieldName">@Html.TextBoxFor(model => model.ReturnData.Form941.TaxOnUnreportedTips3121qAmt, new { @id = "Line5f", @maxlength = "17", @placeholder = "0.00", @onfocus = "txtFocus(this)", @onblur = "txtBlur(this)", @onchange = "CalculateForm941()", @class = "form-control", @style = "text-align: right;" })</td>
                                         </tr>
                                     </table>
@@ -597,106 +659,106 @@
                             </tr>
                             <tr><td class="spacer10"></td></tr>
                             <tr>
-                                <td class="labelName"><label class="control-label"><span>6</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Total taxes before adjustments:</label></td>
+                                <td class="labelName"><label class="control-label"><span>6.</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Total taxes before adjustments:</label></td>
                                 <td class="fieldName">@Html.TextBoxFor(model => model.ReturnData.Form941.Line6, new { @id = "Line6", @maxlength = "17", @placeholder = "0.00", @onfocus = "txtFocus(this)", @onblur = "txtBlur(this)", @onchange = "CalculateForm941()", @readonly = true, @class = "form-control", @style = "text-align: right;" })</td>
                             </tr>
                             <tr><td class="spacer10"></td></tr>
                             <tr>
-                                <td class="labelName"><label class="control-label"><span>7</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Current quarter’s adjustment for fractions of cents:</label></td>
+                                <td class="labelName"><label class="control-label"><span>7.</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Current quarter’s adjustment for fractions of cents:</label></td>
                                 <td class="fieldName">@Html.TextBoxFor(model => model.ReturnData.Form941.CurrentQtrFractionsCentsAmt, new { @id = "Line7", @maxlength = "17", @placeholder = "0.00", @onfocus = "txtFocus(this)", @onblur = "txtBlur(this)", @onchange = "CalculateForm941()", @class = "form-control", @style = "text-align: right;" })</td>
                             </tr>
                             <tr><td class="spacer10"></td></tr>
                             <tr>
-                                <td class="labelName"><label class="control-label"><span>8</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Current quarter’s adjustment for sick pay:</label></td>
+                                <td class="labelName"><label class="control-label"><span>8.</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Current quarter’s adjustment for sick pay:</label></td>
                                 <td class="fieldName">@Html.TextBoxFor(model => model.ReturnData.Form941.CurrentQuarterSickPaymentAmt, new { @id = "Line8", @maxlength = "17", @placeholder = "0.00", @onfocus = "txtFocus(this)", @onblur = "txtBlur(this)", @onchange = "CalculateForm941()", @class = "form-control", @style = "text-align: right;" })</td>
                             </tr>
                             <tr><td class="spacer10"></td></tr>
                             <tr>
-                                <td class="labelName"><label class="control-label"><span>9</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Current quarter’s adjustments for tips and group-term life insurance:</label></td>
+                                <td class="labelName"><label class="control-label"><span>9.</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Current quarter’s adjustments for tips and group-term life insurance:</label></td>
                                 <td class="fieldName">@Html.TextBoxFor(model => model.ReturnData.Form941.CurrQtrTipGrpTermLifeInsAdjAmt, new { @id = "Line9", @maxlength = "17", @placeholder = "0.00", @onfocus = "txtFocus(this)", @onblur = "txtBlur(this)", @onchange = "CalculateForm941()", @class = "form-control", @style = "text-align: right;" })</td>
                             </tr>
 
                             <tr><td class="spacer10"></td></tr>
                             <tr>
-                                <td class="labelName"><label class="control-label"><span>10</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Total taxes after adjustments:</label></td>
+                                <td class="labelName"><label class="control-label"><span>10.</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Total taxes after adjustments:</label></td>
                                 <td class="fieldName">@Html.TextBoxFor(model => model.ReturnData.Form941.Line10, new { @id = "Line10", @maxlength = "17", @placeholder = "0.00", @onfocus = "txtFocus(this)", @onblur = "txtBlur(this)", @onchange = "CalculateForm941()", @readonly = true, @class = "form-control", @style = "text-align: right;" })</td>
                             </tr>
                             <tr><td class="spacer10"></td></tr>
                             <tr>
-                                <td class="labelName"><label class="control-label"><span>11a</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Qualified small business payroll tax credit for increasing research activities.</label></td>
+                                <td class="labelName"><label class="control-label"><span>11a.</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Qualified small business payroll tax credit for increasing research activities.</label></td>
                                 <td class="fieldName">@Html.TextBoxFor(model => model.ReturnData.Form941.Line11a, new { @id = "Line11a", @maxlength = "17", @placeholder = "0.00", @onfocus = "txtFocus(this)", @onblur = "txtBlur(this)", @onchange = "CalculateForm941()", @class = "form-control", @style = "text-align: right;" })</td>
                             </tr>
 
                             <tr><td class="spacer10"></td></tr>
                             <tr>
-                                <td class="labelName"><label class="control-label"><span>11b</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nonrefundable portion of credit for qualified sick and family leave wages from Worksheet 1:</label></td>
+                                <td class="labelName"><label class="control-label"><span>11b.</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nonrefundable portion of credit for qualified sick and family leave wages from Worksheet 1:</label></td>
                                 <td class="fieldName">@Html.TextBoxFor(model => model.ReturnData.COVIDSection.Line11b, new { @id = "Line11b", @maxlength = "17", @placeholder = "0.00", @onfocus = "txtFocus(this)", @onblur = "txtBlur(this)", @onchange = "CalculateForm941()", @class = "form-control", @style = "text-align: right;" })</td>
                             </tr>
 
                             <tr><td class="spacer10"></td></tr>
                             <tr>
-                                <td class="labelName"><label class="control-label"><span>11c</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nonrefundable portion of employee retention credit from Worksheet 1:</label></td>
+                                <td class="labelName"><label class="control-label"><span>11c.</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nonrefundable portion of employee retention credit from Worksheet 1:</label></td>
                                 <td class="fieldName">@Html.TextBoxFor(model => model.ReturnData.COVIDSection.Line11c, new { @id = "Line11c", @maxlength = "17", @placeholder = "0.00", @onfocus = "txtFocus(this)", @onblur = "txtBlur(this)", @onchange = "CalculateForm941()", @class = "form-control", @style = "text-align: right;" })</td>
                             </tr>
 
                             <tr><td class="spacer10"></td></tr>
                             <tr>
-                                <td class="labelName"><label class="control-label"><span>11d</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Total nonrefundable credits :</label></td>
+                                <td class="labelName"><label class="control-label"><span>11d.</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Total nonrefundable credits :</label></td>
                                 <td class="fieldName">@Html.TextBoxFor(model => model.ReturnData.COVIDSection.Line11d, new { @id = "Line11d", @maxlength = "17", @placeholder = "0.00", @onfocus = "txtFocus(this)", @onblur = "txtBlur(this)", @onchange = "CalculateForm941()", @readonly = true, @class = "form-control", @style = "text-align: right;" })</td>
                             </tr>
 
                             <tr><td class="spacer10"></td></tr>
                             <tr>
-                                <td class="labelName"><label class="control-label"><span>12</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Total taxes after adjustments and nonrefundable credits:</label></td>
+                                <td class="labelName"><label class="control-label"><span>12.</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Total taxes after adjustments and nonrefundable credits:</label></td>
                                 <td class="fieldName">@Html.TextBoxFor(model => model.ReturnData.Form941.Line12, new { @id = "TotalTaxAdjustmentCredit", @maxlength = "17", @placeholder = "0.00", @onfocus = "txtFocus(this)", @onblur = "txtBlur(this)", @onchange = "CalculateForm941()", @readonly = true, @class = "form-control", @style = "text-align: right;" })</td>
                             </tr>
 
 
                             <tr><td class="spacer10"></td></tr>
                             <tr>
-                                <td class="labelName"><label class="control-label"><span>13a</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Total deposits for this quarter, including overpayment applied from a prior quarter and overpayments applied from Form 941-X, 941-X (PR), 944-X, or 944-X (SP) filed in the current quarter:</label></td>
+                                <td class="labelName"><label class="control-label"><span>13a.</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Total deposits for this quarter, including overpayment applied from a prior quarter and overpayments applied from Form 941-X, 941-X (PR), 944-X, or 944-X (SP) filed in the current quarter:</label></td>
                                 <td class="fieldName">@Html.TextBoxFor(model => model.ReturnData.Form941.TotTaxDepositAmt, new { @id = "TotalDepositAmt", @maxlength = "17", @placeholder = "0.00", @onfocus = "txtFocus(this)", @onblur = "txtBlur(this)", @onchange = "CalculateForm941()", @class = "form-control", @style = "text-align: right;" })</td>
                             </tr>
 
                             <tr><td class="spacer10"></td></tr>
                             <tr>
-                                <td class="labelName"><label class="control-label"><span>13c</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Refundable portion of credit for qualified sick and family leave wages from Worksheet 1:</label></td>
+                                <td class="labelName"><label class="control-label"><span>13c.</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Refundable portion of credit for qualified sick and family leave wages from Worksheet 1:</label></td>
                                 <td class="fieldName">@Html.TextBoxFor(model => model.ReturnData.COVIDSection.Line13c, new { @id = "Line13c", @maxlength = "17", @placeholder = "0.00", @onfocus = "txtFocus(this)", @onblur = "txtBlur(this)", @onchange = "CalculateForm941()", @class = "form-control", @style = "text-align: right;" })</td>
                             </tr>
 
                             <tr><td class="spacer10"></td></tr>
                             <tr>
-                                <td class="labelName"><label class="control-label"><span>13d</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Refundable portion of employee retention credit from Worksheet 1:</label></td>
+                                <td class="labelName"><label class="control-label"><span>13d.</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Refundable portion of employee retention credit from Worksheet 1:</label></td>
                                 <td class="fieldName">@Html.TextBoxFor(model => model.ReturnData.COVIDSection.Line13d, new { @id = "Line13d", @maxlength = "17", @placeholder = "0.00", @onfocus = "txtFocus(this)", @onblur = "txtBlur(this)", @onchange = "CalculateForm941()", @class = "form-control", @style = "text-align: right;" })</td>
                             </tr>
 
                             <tr><td class="spacer10"></td></tr>
                             <tr>
-                                <td class="labelName"><label class="control-label"><span>13e</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Total deposits and refundable credits:</label></td>
+                                <td class="labelName"><label class="control-label"><span>13e.</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Total deposits and refundable credits:</label></td>
                                 <td class="fieldName">@Html.TextBoxFor(model => model.ReturnData.COVIDSection.Line13e, new { @id = "Line13e", @maxlength = "17", @placeholder = "0.00", @onfocus = "txtFocus(this)", @onblur = "txtBlur(this)", @onchange = "CalculateForm941()", @readonly = true, @class = "form-control", @style = "text-align: right;" })</td>
                             </tr>
 
                             <tr><td class="spacer10"></td></tr>
                             <tr>
-                                <td class="labelName"><label class="control-label"><span>13f</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Total advances received from filing Form(s) 7200 for the quarter:</label></td>
+                                <td class="labelName"><label class="control-label"><span>13f.</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Total advances received from filing Form(s) 7200 for the quarter:</label></td>
                                 <td class="fieldName">@Html.TextBoxFor(model => model.ReturnData.COVIDSection.Line13f, new { @id = "Line13f", @maxlength = "17", @placeholder = "0.00", @onfocus = "txtFocus(this)", @onblur = "txtBlur(this)", @onchange = "CalculateForm941()", @class = "form-control", @style = "text-align: right;" })</td>
                             </tr>
 
 
                             <tr><td class="spacer10"></td></tr>
                             <tr>
-                                <td class="labelName"><label class="control-label"><span>13g</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Total deposits, deferrals, and refundable credits less advances:</label></td>
+                                <td class="labelName"><label class="control-label"><span>13g.</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Total deposits, deferrals, and refundable credits less advances:</label></td>
                                 <td class="fieldName">@Html.TextBoxFor(model => model.ReturnData.COVIDSection.Line13g, new { @id = "Line13g", @maxlength = "17", @placeholder = "0.00", @onfocus = "txtFocus(this)", @onblur = "txtBlur(this)", @onchange = "CalculateForm941()", @readonly = true, @class = "form-control", @style = "text-align: right;" })</td>
                             </tr>
 
                             <tr><td class="spacer10"></td></tr>
                             <tr>
-                                <td class="labelName"><label class="control-label"><span>14</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Balance Due:</label></td>
+                                <td class="labelName"><label class="control-label"><span>14.</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Balance Due:</label></td>
                                 <td class="fieldName">@Html.TextBoxFor(model => model.ReturnData.Form941.Line14, new { @id = "BalanceDueAmt", @maxlength = "17", @placeholder = "0.00", @onfocus = "txtFocus(this)", @onblur = "txtBlur(this)", @readonly = true, @onchange = "CalculateForm941()", @class = "form-control", @style = "text-align: right;" })</td>
                             </tr>
                             <tr><td class="spacer10"></td></tr>
                             <tr>
-                                <td class="labelName"><label class="control-label"><span>15</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Overpayment:</label></td>
+                                <td class="labelName"><label class="control-label"><span>15.</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Overpayment:</label></td>
                                 <td class="fieldName">@Html.TextBoxFor(model => model.ReturnData.Form941.Line15, new { @id = "OverPaymentAmt", @maxlength = "17", @placeholder = "0.00", @onfocus = "txtFocus(this)", @onblur = "txtBlur(this)", @readonly = true, @onchange = "CalculateForm941()", @class = "form-control", @style = "text-align: right;" })</td>
                                 <td class="fieldName">
                                     <div class="radio">
@@ -715,6 +777,9 @@
                     </div>
                 </div>
             </div>
+
+
+            @*Deposit Schedule & Tax Liability Information*@
             <div class="panel panel-default">
                 <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#collapse3">
                     <h4 class="panel-title">
@@ -761,6 +826,9 @@
                     </div>
                 </div>
             </div>
+
+
+            @*Form 941 - Business Status*@
             <div class="panel panel-default">
                 <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#collapse4">
                     <h4 class="panel-title">
@@ -1075,6 +1143,8 @@
                     </div>
                 </div>
             </div>
+
+            @*Third Party Designee*@
             <div class="panel panel-default">
                 <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#collapse5">
                     <h4 class="panel-title">
@@ -1123,6 +1193,8 @@
                     </div>
                 </div>
             </div>
+
+            @*Signature Details*@
             <div class="panel panel-default">
                 <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#collapse6">
                     <h4 class="panel-title">
@@ -1152,6 +1224,7 @@
                 </div>
             </div>
 
+            @*Form 8974 Information*@
             <div id="ShowHideForm_8974" class="panel panel-default">
                 <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#collapse7">
                     <h4 class="panel-title">
@@ -1315,12 +1388,12 @@
 
     $(function () {
 
+        BindBusinessAddressBook();
+
         $(".mydatepicker")
             .datepicker({
                 dateFormat: "mm/dd/yy"
             })
-
-
 
         $(".nav_menu li").removeClass('active');
         $("#liform941return").addClass('active');
@@ -1380,10 +1453,6 @@
         $('input[id*=txtTaxLiabilityMonth]').blur(function () {
             CalculateLiability();
         });
-
-
-
-
 
     });
 
@@ -1454,26 +1523,6 @@
             $("#trMonthyDepositor").hide();
         } else {
             $("#trMonthyDepositor").hide();
-        }
-    }
-
-    function ChangeBusinessMemberType(obj) {
-        var selectOption = "<option>--Select--</option>";
-        if ($(obj).val() != "") {
-            var businessType = $(obj).val();
-            $.getJSON("/Form941/BusinessMembersList/", { id: businessType }, function (data) {
-                if (data != null && data != '' && data != undefined) {
-                    $("#businessmemeber").html("");
-                    $("#businessmemeber").append(selectOption);
-                    for (var i = 0; i < data.data.length; i++) {
-                        $("#businessmemeber").append($('<option></option>').val(data.data[i].value).html(data.data[i].text));
-                    }
-                }
-            });
-        }
-        else {
-            $("#businessmemeber").html("");
-            $("#businessmemeber").append(selectOption);
         }
     }
 
@@ -1733,6 +1782,61 @@
                 $("#Form8974Line11").prop("readonly", true);
             }
             //calculateLine6();
+        }
+
+
+    function BindBusinessAddressBook() {
+        var selectOption = "<option>--Select--</option>";
+        var NoOption = "<option>Address Book Empty</option>";
+            $.ajax({
+                type: "GET",
+                url: "/Business/GetBusinessAddressBook",
+                data: "{}",
+                success: function (data) {
+                    if (data != null && data != '' && data != undefined) {
+                        $("#ddlBusinessAddressbook").html("");
+                        $("#ddlBusinessAddressbook").append(selectOption);
+                        for (var i = 0; i < data.data.length; i++) {
+                            if (!data.data[i].isForeign) {
+                                $("#ddlBusinessAddressbook").append($('<option></option>').val(data.data[i].businessId).html(data.data[i].businessNm + "-" + data.data[i].eiNorSSN));
+                            }
+                        }
+                    } else {
+                        $("#ddlBusinessAddressbook").html("");
+                        $("#ddlBusinessAddressbook").append(NoOption);
+                    }
+                }
+            });
+        }
+
+    function GetBusinessDtls() {
+        var SelectedBusinessID = $('#ddlBusinessAddressbook').val();
+        var val = $("#ddlBusinessAddressbook option:selected").text();
+        var SelectedBusinessEinOrSSN = val.substr(val.indexOf("-") + 1)
+        $.ajax({
+            type: "GET",
+            url: "/Business/GetSingeBusinessInJsonFormat",
+            data: { BusinessId:SelectedBusinessID,EinOrSSN:SelectedBusinessEinOrSSN},
+            success: function (data) {
+                if (data != null && data != '' && data != undefined) {
+                    $('#BusinessNm').val(data.data.business.businessNm);
+                    $('#BusinessType').val(data.data.business.businessType);
+
+                    $('#EINorSSN').val(data.data.business.eiNorSSN);
+                    $('#Address1').val(data.data.business.usAddress.address1);
+                    $('#Address1').val(data.data.business.usAddress.address2);
+                    $('#City').val(data.data.business.usAddress.city);
+                    $('#State').val(data.data.business.usAddress.state);
+                    $('#ZipCd').val(data.data.business.usAddress.zipCd);
+                    $('#ContactNm').val(data.data.business.contactNm);
+                    $('#Phone').val(data.data.business.phone);
+                    $('#Email').val(data.data.business.email);
+                    $('#SigningAuthrtyName').val(data.data.business.signingAuthority.name);
+                    $('#SigningAuthrtyPhone').val(data.data.business.signingAuthority.phone);
+                    $('#businessmemeber').val(data.data.business.signingAuthority.businessMemberType);
+                } 
+            }
+        });
         }
 
     </script>

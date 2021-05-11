@@ -1,11 +1,11 @@
-﻿using DotNetCoreSDK.Models.Business_Model;
+﻿using DotNetCoreSDK.Models.Business;
 using DotNetCoreSDK.Models.Form941CoreModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace DotNetCoreSDK.Models.Form_941
+namespace DotNetCoreSDK.Models.Form941
 {
     public class Form941Data
     {
@@ -63,7 +63,7 @@ namespace DotNetCoreSDK.Models.Form_941
         /// <summary>
         ///  Business Details
         /// </summary>
-        public Business Business { get; set; }
+        public Business.Business Business { get; set; }
 
         /// <summary>
         /// Gets or sets the IsThirdPartyDesignee

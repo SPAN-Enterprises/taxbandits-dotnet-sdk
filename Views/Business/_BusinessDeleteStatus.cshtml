@@ -1,4 +1,4 @@
-﻿@model DotNetCoreSDK.Models.Business_Model.BusinessDeleteResponse
+﻿@model DotNetCoreSDK.Models.Business.BusinessDeleteResponse
 
 <div class="modal-header edit-modal-header">
     <button type="button" class="close" data-dismiss="modal"></button>
@@ -67,20 +67,23 @@
 
 <div class="modal-footer edit-modal-footer mTopNo">
     <div class="taC">
-        <button type="button" class="btn btn_md btn_second" data-dismiss="modal" onclick="LoadBusinessList()">
+        <button type="button" class="btn btn_md btn_second" data-dismiss="modal" onclick="location.href='@Url.Action("GetBusinessList", "Business")'" >
+           @*LoadBusinessList()*@
             Okay
         </button>
     </div>
 </div>
 <script>
+
+  
     function LoadBusinessList() {
-        $('#btnDropdown').html('Form 941 <span class="caret"></span>')
+       $('#btnDropdown').html('Business List <span class="caret"></span>')
         $.ajax({
             url: "/Business/GetBusinessList",
             cache: false,
             data: {},
             success: function (data) {
-                //$('#GetForm941EfileStatus').html("");
+                //$('#BusinessListDiv').html("");                
                 $('#BusinessListDiv').html(data);
             },
             error: function (err) {

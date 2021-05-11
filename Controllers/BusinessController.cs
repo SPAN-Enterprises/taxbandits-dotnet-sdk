@@ -1,5 +1,5 @@
-﻿using DotNetCoreSDK.Models.BaseModels;
-using DotNetCoreSDK.Models.Business_Model;
+﻿using DotNetCoreSDK.Models.Base;
+using DotNetCoreSDK.Models.Business;
 using DotNetCoreSDK.Models.Utilities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -21,11 +21,12 @@ namespace DotNetCoreSDK.Controllers
         }
 
         #region Business Create Return Response Status
+     
         [HttpPost]
         public ActionResult CreateBusiness(BusinessCreateRequest FormBusiness)
         {
             var responseJson = string.Empty;
-            var BusinessResponse = new BusinessCreateReturnResponse();         
+            var BusinessResponse = new BusinessCreateReturnResponse();
 
             string ApiUrl = Utility.GetAppSettings(Constants.PublicAPIUrlWithJWT);
             // Generate JSON for Form 941
@@ -37,7 +38,7 @@ namespace DotNetCoreSDK.Controllers
             {
                 using (var apiClient = new HttpClient())
                 {
-                    //API URL to Create Form 941 Return
+                    //API URL to Business Create
                     string requestUri = "Business/Create";
                     apiClient.BaseAddress = new Uri(ApiUrl);
                     //Construct HTTP headers in Generated Token.
@@ -91,8 +92,8 @@ namespace DotNetCoreSDK.Controllers
             {
                 using (var apiClient = new HttpClient())
                 {
-                    //API URL to Get Form 941 Return
-                    string requestUri = "Business/List?Page=0&PageSize=10&FromDate="+ aDate.ToString("MM/dd/yyyy") + "&ToDate="+ aDate.ToString("MM/dd/yyyy");
+                    //API URL to Get Business List Return
+                    string requestUri = "Business/List?Page=0&PageSize=20&FromDate=" + aDate.AddDays(-5).ToString("MM/dd/yyyy") + "&ToDate=" + aDate.ToString("MM/dd/yyyy");
 
                     apiClient.BaseAddress = new Uri(ApiUrl);
                     //Construct HTTP headers
@@ -125,9 +126,9 @@ namespace DotNetCoreSDK.Controllers
 
         #region Delete Return
         /// <summary>
-        /// Function delete the Form 941 Return to Efile
+        /// Function delete the Business return using  BusinessId
         /// </summary>
-        /// <param name="BusinessId">SubmissionId passed to delete the Business return</param>
+        /// <param name="BusinessId">BusinessId passed to delete the Business return</param>
         /// <returns>DeleteReturnResponse</returns>
         public ActionResult Delete(Guid BusinessId)
         {
@@ -148,12 +149,11 @@ namespace DotNetCoreSDK.Controllers
 
                         using (var apiClient = new HttpClient())
                         {
-                            //API URL to Transmit Form 941 Return
+                            //API URL to Delete  Business Return using  BusinessId
                             string requestUri = "Business/Delete?BusinessId=" + BusinessId;
 
                             apiClient.BaseAddress = new Uri(ApiUrl);
-                            //Construct HTTP headers
-                            //If Access token got expired, call OAuth API again & get new Access token.
+                            //Construct HTTP headers                       
                             OAuthGenerator.ConstructHeadersWithAccessToken(apiClient, GeneratedAccessToken);
 
                             //Get Response
@@ -184,13 +184,13 @@ namespace DotNetCoreSDK.Controllers
         }
         #endregion
 
-        #region Get Form 941
+        #region Get Business By BusinessID
         /// <summary>
-        /// Function get the Business Return to Efile
+        /// Function get the single Business return using BusinessId
         /// </summary>
-        /// <param name="BusinessId">SubmissionId passed to get the single Business return</param>
+        /// <param name="BusinessId">BusinessId passed to get the single Business return</param>
         /// <returns>BusinessGetReturnResponse</returns>
-        public ActionResult GetBusinessByBusinessId(Guid BusinessId,string EinOrSSN)
+        public ActionResult GetBusinessByBusinessId(Guid BusinessId, string EinOrSSN)
         {
             var BusinessGetReturnResponse = new BusinessGetResponse();
             var BusinessGetReturnResponseJSON = string.Empty;
@@ -207,7 +207,7 @@ namespace DotNetCoreSDK.Controllers
                 {
                     using (var apiClient = new HttpClient())
                     {
-                        //API URL to Get Form 941 Return
+                        //API URL to Get Business Return using BusinessId and EIN
                         string requestUri = "Business/Get?BusinessId=" + BusinessId + " & EIN = " + EinOrSSN;
 
                         apiClient.BaseAddress = new Uri(ApiUrl);
@@ -247,11 +247,11 @@ namespace DotNetCoreSDK.Controllers
         }
         #endregion
 
-        #region  Business Members List
+        #region  Business Members Type  based on Business Type
         [HttpGet]
-        public ActionResult BusinessMembersList(string id)
+        public ActionResult BusinessMembersType(string SelectedBusinessTypeVal)
         {
-            var businessType = id;
+            var businessType = SelectedBusinessTypeVal;
             if (!string.IsNullOrWhiteSpace(businessType))
             {
                 var businessMembersList = new List<SelectListItem>();
@@ -278,6 +278,123 @@ namespace DotNetCoreSDK.Controllers
                 return new JsonResult(new { data = businessMembersList });
             }
             return new JsonResult(false);
+        }
+        #endregion
+
+
+        #region Get Business Address Book 
+        /// <summary>
+        /// Function get the Business Return
+        /// </summary>     
+        /// <returns>BusinessReturnList</returns>
+        public ActionResult GetBusinessAddressBook()
+        {
+            var ListReturnRepsone = new BusinessListResponse();
+            var Business = new List<Business>();
+            var getReturnResponseJSON = string.Empty;
+            DateTime aDate = DateTime.Now;
+            //Get URLs from App.Config
+            string ApiUrl = Utility.GetAppSettings(Constants.PublicAPIUrlWithJWT);
+            //Get Access token from GetAccessToken Class
+            GetAccessToken AccessToken = new GetAccessToken(HttpContext);
+            //Get Access token from OAuth API response
+            var GeneratedAccessToken = AccessToken.GetGeneratedAccessToken();
+            if (!string.IsNullOrWhiteSpace(GeneratedAccessToken))
+            {
+                using (var apiClient = new HttpClient())
+                {
+                    //API URL to Get Business Return
+                    string requestUri = "Business/List?Page=0&PageSize=10&FromDate=" + aDate.AddDays(-3).ToString("MM/dd/yyyy") + "&ToDate=" + aDate.ToString("MM/dd/yyyy"); 
+
+                    apiClient.BaseAddress = new Uri(ApiUrl);
+                    //Construct HTTP headers
+                    OAuthGenerator.ConstructHeadersWithAccessToken(apiClient, GeneratedAccessToken);
+                    //Get Response
+                    var _response = apiClient.GetAsync(requestUri).Result;
+                    if (_response != null && _response.IsSuccessStatusCode)
+                    {
+                        //Read Response
+                        var createResponse = _response.Content.ReadAsAsync<BusinessListResponse>().Result;
+                        if (createResponse != null)
+                        {
+                            getReturnResponseJSON = JsonConvert.SerializeObject(createResponse, Formatting.Indented);
+                            ListReturnRepsone = new JavaScriptSerializer().Deserialize<BusinessListResponse>(getReturnResponseJSON);
+                            Business = ListReturnRepsone.Businesses;
+                        }
+                    }
+                    else
+                    {
+                        var createResponse = _response.Content.ReadAsAsync<Object>().Result;
+                        getReturnResponseJSON = JsonConvert.SerializeObject(createResponse, Formatting.Indented);
+                        ListReturnRepsone = new JavaScriptSerializer().Deserialize<BusinessListResponse>(getReturnResponseJSON);
+                    }
+
+                }
+            }
+            return new JsonResult(new { data = Business });
+        }
+        #endregion
+
+
+        #region Get Single Business In Json 
+        /// <summary>
+        /// Function get the Business Return to Efile
+        /// </summary>
+        /// <param name="BusinessId">BusinessId passed to get the single Business return</param>
+        /// <returns>BusinessGetReturnResponse</returns>
+        public ActionResult GetSingeBusinessInJsonFormat(Guid BusinessId,string EinOrSSN)
+        {
+            var BusinessGetReturnResponse = new BusinessGetResponse();
+            var Businesslist = new List<Business>();
+            var BusinessGetReturnResponseJSON = string.Empty;
+            if (EinOrSSN != null && EinOrSSN != string.Empty)
+            {
+                //Get URLs from App.Config
+                string ApiUrl = Utility.GetAppSettings(Constants.PublicAPIUrlWithJWT);
+
+                //Get Access token from GetAccessToken Class
+                GetAccessToken AccessToken = new GetAccessToken(HttpContext);
+                //Get Access token from OAuth API response
+                var GeneratedAccessToken = AccessToken.GetGeneratedAccessToken();
+                if (!string.IsNullOrWhiteSpace(GeneratedAccessToken))
+                {
+                    using (var apiClient = new HttpClient())
+                    {
+                        //API URL to Get Form 941 Return
+                        string requestUri = "Business/Get?BusinessId=" + BusinessId + " & EIN = " + EinOrSSN;
+
+                        apiClient.BaseAddress = new Uri(ApiUrl);
+                        //Construct HTTP headers
+                        OAuthGenerator.ConstructHeadersWithAccessToken(apiClient, GeneratedAccessToken);
+                        //Get Response
+                        var _response = apiClient.GetAsync(requestUri).Result;
+                        if (_response != null && _response.IsSuccessStatusCode)
+                        {
+                            //Read Response
+                            var createResponse = _response.Content.ReadAsAsync<BusinessGetResponse>().Result;
+                            if (createResponse != null)
+                            {
+                                BusinessGetReturnResponseJSON = JsonConvert.SerializeObject(createResponse, Formatting.Indented);
+                                BusinessGetReturnResponse = new JavaScriptSerializer().Deserialize<BusinessGetResponse>(BusinessGetReturnResponseJSON);
+                                if (BusinessGetReturnResponse != null && BusinessGetReturnResponse.StatusCode == (int)StatusCodeList.Success)
+                                {
+
+
+                                }
+
+                            }
+                        }
+                        else
+                        {
+                            var createResponse = _response.Content.ReadAsAsync<Object>().Result;
+                            BusinessGetReturnResponseJSON = JsonConvert.SerializeObject(createResponse, Formatting.Indented);
+                            BusinessGetReturnResponse = new JavaScriptSerializer().Deserialize<BusinessGetResponse>(BusinessGetReturnResponseJSON);
+                        }
+
+                    }
+                }
+            }
+            return new JsonResult(new { Data = BusinessGetReturnResponse });
         }
         #endregion
     }

@@ -1,4 +1,4 @@
-﻿@model DotNetCoreSDK.Models.Business_Model.BusinessCreateReturnResponse
+﻿@model DotNetCoreSDK.Models.Business.BusinessCreateReturnResponse
 
 <div class="modal-header edit-modal-header">
     <button type="button" class="close" data-dismiss="modal"></button>
@@ -89,7 +89,7 @@
 
 <div class="modal-footer edit-modal-footer mTopNo">
     <div class="taC">
-        <button type="button" class="btn btn_md btn_second" data-dismiss="modal">
+        <button type="button" class="btn btn_md btn_second" data-dismiss="modal" onclick="location.href='@Url.Action("GetBusinessList", "Business")'">
             Okay
         </button>
     </div>
