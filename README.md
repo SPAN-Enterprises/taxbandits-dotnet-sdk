@@ -19,7 +19,7 @@ the SDK. See below for more directions:
 ### To get the sandbox keys:
 - Go to Sandbox Developer console: https://sandbox.taxbandits.com
 - Signup or signin to Sandbox 
-- Navigate to Settings and then to API Credentials. Copy Client Id, Client Secret and User Token. ​ 
+- Navigate to settings and then to API Credentials. Copy client id, client secret and user token. 
 ### The sandbox URLs: (Please make sure to use the right versions)
 - Sandbox Auth Server: https://testoauth.expressauth.net/v2/tbsauth 
 - API Server: https://testapi.taxbandits.com/v1.6.1 
@@ -27,9 +27,9 @@ the SDK. See below for more directions:
 ### How to use?
 Below are the steps to integrate with TaxBandits API:
 1. Sign up for a new developer account in https://sandbox.taxbandits.com/User/Register
-2. Navigate to **Settings** from the left menu and choose **API Credentials**
+2. Navigate to **settings** from the left menu and choose **API Credentials**
 3. You can find your Client Id, Client Secret and User Token in the API Credentials page.
-4. Open appsettings.json and replace with your Client Id, Client Secret and User Token under appSettings tag.
+4. Open appsettings.json file and replace with your Client Id, Client Secret and User Token under appsettings tag.
 5. Play with the sample application provided for sandbox testing.
 ### Project Folder Structure
 * controllers:

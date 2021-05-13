@@ -29,7 +29,7 @@ namespace DotNetCoreSDK.Controllers
             var BusinessResponse = new BusinessCreateReturnResponse();
 
             string ApiUrl = Utility.GetAppSettings(Constants.PublicAPIUrlWithJWT);
-            // Generate JSON for Form 941
+            // Generate JSON for Business
             var requestJson = JsonConvert.SerializeObject(FormBusiness, Formatting.Indented);
             //Get Access token from OAuth API response 
             GetAccessToken AccessToken = new GetAccessToken(HttpContext);
@@ -208,7 +208,7 @@ namespace DotNetCoreSDK.Controllers
                     using (var apiClient = new HttpClient())
                     {
                         //API URL to Get Business Return using BusinessId and EIN
-                        string requestUri = "Business/Get?BusinessId=" + BusinessId + " & EIN = " + EinOrSSN;
+                        string requestUri = "Business/Get?BusinessId="+BusinessId+"&EIN="+EinOrSSN;
 
                         apiClient.BaseAddress = new Uri(ApiUrl);
                         //Construct HTTP headers

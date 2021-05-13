@@ -11,22 +11,22 @@
         <table class="responsive">
             <tr>
                 <td class="labelName"><label class="control-label">SubmissionId:</label></td>
-                <td class="fieldName">@Model.SubmissionId</td>
+                <td class="fieldName" style="top:4px;">@Model.SubmissionId</td>
             </tr>
             <tr><td class="spacer10"></td></tr>
             <tr>
                 <td class="labelName"><label class="control-label">Status Code:</label></td>
-                <td class="fieldName">@Model.StatusCode</td>
+                <td class="fieldName" style="top:4px;">@Model.StatusCode</td>
             </tr>
             <tr><td class="spacer10"></td></tr>
             <tr>
                 <td class="labelName"><label class="control-label">Status Message:</label></td>
-                <td class="fieldName">@Model.StatusMessage</td>
+                <td class="fieldName" style="top:4px;">@Model.StatusMessage</td>
             </tr>
             <tr><td class="spacer10"></td></tr>
             <tr>
                 <td class="labelName"><label class="control-label">Status Name:</label></td>
-                <td class="fieldName">@Model.StatusName</td>
+                <td class="fieldName" style="top:4px;">@Model.StatusName</td>
             </tr>
         </table>
     }
@@ -145,11 +145,22 @@
 </div>
 
 <div class="modal-footer edit-modal-footer mTopNo">
-    <div class="taC">
-        <button type="button" class="btn btn_md btn_second" data-dismiss="modal" onclick="location.href='@Url.Action("GetListForm941", "form941")'">
-            Okay
-        </button>
-    </div>
+    @if (Model != null && Model.Form941Records != null && Model.Form941Records.SuccessRecords != null)
+    {
+        <div class="taC">
+            <button type="button" class="btn btn_md btn_second" data-dismiss="modal" onclick="location.href='@Url.Action("GetListForm941", "form941")'">
+                Okay
+            </button>
+        </div>
+    }
+    else
+    {
+        <div class="taC">
+            <button type="button" class="btn btn_md btn_second" data-dismiss="modal">
+                Okay
+            </button>
+        </div>
+    }
 </div>
 
 
