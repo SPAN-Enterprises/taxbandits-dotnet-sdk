@@ -20,34 +20,40 @@ namespace DotNetCoreSDK.Models.Utilities
         public static void GenerateJWSAndGetAccessToken(HttpClient client)
         {
             #region Get Credentials from TaxBandits Dev Console (https://sandbox.taxbandits.com/ (Settings ==> API Credentials))
-            //Fetch the 3 keys from web.config file
+            //Fetch the 3 keys from appspettings.json file
             string userToken = Utility.GetAppSettings("UserToken");
             string clientId = Utility.GetAppSettings("ClientId");
             string clientSecret = Utility.GetAppSettings("ClientSecret");
-
             #endregion
 
-            //Encode the JWS with clientSecret to create a signature
-            var clientSecretSymmetricKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(clientSecret));
-            var signingCredentials = new SigningCredentials(clientSecretSymmetricKey, SecurityAlgorithms.HmacSha256);
+            if (!string.IsNullOrWhiteSpace(userToken)|| !string.IsNullOrWhiteSpace(clientId) || !string.IsNullOrWhiteSpace(clientSecret))
+            {
+                if (!userToken.Equals("--Your UserToken--") || !clientSecret.Equals("--Your ClientSecret--") || !clientId.Equals("--Your ClientId--"))
+                {
+                    //Encode the JWS with clientSecret to create a signature
+                    var clientSecretSymmetricKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(clientSecret));
+                    var signingCredentials = new SigningCredentials(clientSecretSymmetricKey, SecurityAlgorithms.HmacSha256);
 
-            //Create the required set of claims with appropriate values
-            var claims = new[] {
+                    //Create the required set of claims with appropriate values
+                    var claims = new[] {
                                     new Claim(JwtRegisteredClaimNames.Iss, clientId),
                                     new Claim(JwtRegisteredClaimNames.Sub, clientId),
                                     new Claim(JwtRegisteredClaimNames.Aud, userToken),
                                     new Claim(JwtRegisteredClaimNames.Iat, ConvertToUnixEpochTimestamp(DateTime.Now).ToString()),
                                };
-            //Setting the 5 minutes expiry to the JWS
-            var token = new JwtSecurityToken(null, null, claims, expires: DateTime.Now.AddMinutes(5), signingCredentials: signingCredentials);
+                    //Setting the 5 minutes expiry to the JWS
+                    var token = new JwtSecurityToken(null, null, claims, expires: DateTime.Now.AddMinutes(5), signingCredentials: signingCredentials);
 
-            //WriteToken method constructs & returns the JWS
-            var jws = new JwtSecurityTokenHandler().WriteToken(token);
+                    //WriteToken method constructs & returns the JWS
+                    var jws = new JwtSecurityTokenHandler().WriteToken(token);
 
-            client.DefaultRequestHeaders.Clear();
+                    client.DefaultRequestHeaders.Clear();
 
-            //Add the JWS constructed to the Authentication header
-            client.DefaultRequestHeaders.Add("Authentication", jws);
+                    //Add the JWS constructed to the Authentication header
+                    client.DefaultRequestHeaders.Add("Authentication", jws);
+                }
+            }
+
         }
         #endregion
 
@@ -99,4 +105,4 @@ namespace DotNetCoreSDK.Models.Utilities
         #endregion
 
     }
-}   
+}

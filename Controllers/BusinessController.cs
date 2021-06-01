@@ -87,9 +87,8 @@ namespace DotNetCoreSDK.Controllers
             //Get Access token from GetAccessToken Class
             GetAccessToken AccessToken = new GetAccessToken(HttpContext);
             //Get Access token from OAuth API response
-            var GeneratedAccessToken = AccessToken.GetGeneratedAccessToken();
-            if (!string.IsNullOrWhiteSpace(GeneratedAccessToken))
-            {
+            var GeneratedAccessToken = AccessToken.GetGeneratedAccessTokenTemp();
+           
                 using (var apiClient = new HttpClient())
                 {
                     //API URL to Get Business List Return
@@ -97,7 +96,7 @@ namespace DotNetCoreSDK.Controllers
 
                     apiClient.BaseAddress = new Uri(ApiUrl);
                     //Construct HTTP headers
-                    OAuthGenerator.ConstructHeadersWithAccessToken(apiClient, GeneratedAccessToken);
+                    OAuthGenerator.ConstructHeadersWithAccessToken(apiClient, GeneratedAccessToken.AccessToken);
                     //Get Response
                     var _response = apiClient.GetAsync(requestUri).Result;
                     if (_response != null && _response.IsSuccessStatusCode)
@@ -119,7 +118,8 @@ namespace DotNetCoreSDK.Controllers
                     }
 
                 }
-            }
+            
+            
             return PartialView("_GetBusinessList", Business);
         }
         #endregion

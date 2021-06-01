@@ -44,7 +44,7 @@ Below are the steps to integrate with TaxBandits API:
     - The appsettings.json file is an application configuration file used to add custom keys.
 * wwwroot:
     - The wwwroot folder is a default folder in the ASP.NET Core project is treated as a web root folder. 
-    - Static files can be stored in any folder under the web root and accessed  with a relative path to that root.
+    - Static files can be stored in any folder under the web root and accessed with a relative path to that root.
 * Program.cs:
     - A console file which starts executing from the entry point public static void Main() in Program class where we can create a host for the web application.
 * Startup.cs:

@@ -51,7 +51,7 @@
                                 <table class="table table-bordered">
                                     <thead class="thead-inverse">
                                         <tr>
-                                            <th>Code</th>
+                                            <th>Id</th>
                                             <th>Name</th>
                                             <th>Message</th>
                                             <th>Type</th>
@@ -61,7 +61,7 @@
                                         @foreach (var itemerror in item.Errors)
                                         {
                                             <tr>
-                                                <td>@itemerror.Code</td>
+                                                <td>@itemerror.ID</td>
                                                 <td>@itemerror.Name</td>
                                                 <td>@itemerror.Message</td>
                                                 <td>@itemerror.Type</td>
@@ -116,7 +116,7 @@
         <table class="table table-bordered">
             <thead class="thead-inverse">
                 <tr>
-                    <th>Code</th>
+                    <th>Id</th>
                     <th>Name</th>
                     <th>Message</th>
                     <th>Type</th>
@@ -126,7 +126,7 @@
                 @foreach (var itemerror in Model.Errors)
                 {
                     <tr>
-                        <td>@itemerror.Code</td>
+                        <td>@itemerror.ID</td>
                         <td>@itemerror.Name</td>
                         <td>@itemerror.Message</td>
                         <td>@itemerror.Type</td>
