@@ -52,8 +52,15 @@ namespace DotNetCoreSDK.Models.Utilities
                     //Add the JWS constructed to the Authentication header
                     client.DefaultRequestHeaders.Add("Authentication", jws);
                 }
+                else
+                {
+                    throw new Exception("Access Token is missing in the request header. pleasecheck appsettings json file and include API credentials.");
+                }
             }
-
+            else
+            {
+                throw new Exception("Access Token is missing in the request header. pleasecheck appsettings json file and include API credentials.");
+            }
         }
         #endregion
 

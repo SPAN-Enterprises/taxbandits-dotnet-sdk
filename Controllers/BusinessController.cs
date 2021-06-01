@@ -21,7 +21,7 @@ namespace DotNetCoreSDK.Controllers
         }
 
         #region Business Create Return Response Status
-     
+
         [HttpPost]
         public ActionResult CreateBusiness(BusinessCreateRequest FormBusiness)
         {
@@ -66,6 +66,7 @@ namespace DotNetCoreSDK.Controllers
                     }
                 }
             }
+
             return PartialView("_BusinessReturnResponse", BusinessResponse);
 
         }
@@ -87,16 +88,17 @@ namespace DotNetCoreSDK.Controllers
             //Get Access token from GetAccessToken Class
             GetAccessToken AccessToken = new GetAccessToken(HttpContext);
             //Get Access token from OAuth API response
-            var GeneratedAccessToken = AccessToken.GetGeneratedAccessTokenTemp();
-           
+            var GeneratedAccessToken = AccessToken.GetGeneratedAccessToken();
+            if (!string.IsNullOrWhiteSpace(GeneratedAccessToken))
+            {
                 using (var apiClient = new HttpClient())
                 {
                     //API URL to Get Business List Return
-                    string requestUri = "Business/List?Page=0&PageSize=20&FromDate=" + aDate.AddDays(-5).ToString("MM/dd/yyyy") + "&ToDate=" + aDate.ToString("MM/dd/yyyy");
+                    string requestUri = "Business/List?Page=0&PageSize=10";
 
                     apiClient.BaseAddress = new Uri(ApiUrl);
                     //Construct HTTP headers
-                    OAuthGenerator.ConstructHeadersWithAccessToken(apiClient, GeneratedAccessToken.AccessToken);
+                    OAuthGenerator.ConstructHeadersWithAccessToken(apiClient, GeneratedAccessToken);
                     //Get Response
                     var _response = apiClient.GetAsync(requestUri).Result;
                     if (_response != null && _response.IsSuccessStatusCode)
@@ -118,8 +120,8 @@ namespace DotNetCoreSDK.Controllers
                     }
 
                 }
-            
-            
+
+            }
             return PartialView("_GetBusinessList", Business);
         }
         #endregion
@@ -208,7 +210,7 @@ namespace DotNetCoreSDK.Controllers
                     using (var apiClient = new HttpClient())
                     {
                         //API URL to Get Business Return using BusinessId and EIN
-                        string requestUri = "Business/Get?BusinessId="+BusinessId+"&EIN="+EinOrSSN;
+                        string requestUri = "Business/Get?BusinessId=" + BusinessId + "&EIN=" + EinOrSSN;
 
                         apiClient.BaseAddress = new Uri(ApiUrl);
                         //Construct HTTP headers
@@ -304,7 +306,7 @@ namespace DotNetCoreSDK.Controllers
                 using (var apiClient = new HttpClient())
                 {
                     //API URL to Get Business Return
-                    string requestUri = "Business/List?Page=0&PageSize=10&FromDate=" + aDate.AddDays(-3).ToString("MM/dd/yyyy") + "&ToDate=" + aDate.ToString("MM/dd/yyyy"); 
+                    string requestUri = "Business/List?Page=0&PageSize=10";
 
                     apiClient.BaseAddress = new Uri(ApiUrl);
                     //Construct HTTP headers
@@ -342,7 +344,7 @@ namespace DotNetCoreSDK.Controllers
         /// </summary>
         /// <param name="BusinessId">BusinessId passed to get the single Business return</param>
         /// <returns>BusinessGetReturnResponse</returns>
-        public ActionResult GetSingeBusinessInJsonFormat(Guid BusinessId,string EinOrSSN)
+        public ActionResult GetSingeBusinessInJsonFormat(Guid BusinessId, string EinOrSSN)
         {
             var BusinessGetReturnResponse = new BusinessGetResponse();
             var Businesslist = new List<Business>();

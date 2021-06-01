@@ -367,7 +367,7 @@
     @using (Html.BeginForm("", "", FormMethod.Post, new { id = "BusinessCreateReturnForm" }))
     {
         <h1 class="pageTitle">
-           Business
+            Business
         </h1>
         <div class="panel-group" id="accordion">
             <div class="panel panel-default">
@@ -384,26 +384,30 @@
                                 <td class="fieldName">@Html.TextBoxFor(model => model.BusinessNm, new { @class = "form-control" })</td>
                                 <td class="labelName"><label style="margin-left:25%" class="control-label">Trade Name:</label></td>
                                 <td class="fieldName">@Html.TextBoxFor(model => model.TradeNm, new { @class = "form-control" })</td>
+                            </tr>
+                            <tr><td class="spacer10"></td></tr>
+                            <tr>
                                 <td class="labelName"> <label style="margin-left:25%;position:relative;top:1px;" class="control-label">EIN or SSN:</label> </td>
                                 <td class="fieldName" style="top:11px;">
                                     @Html.TextBoxFor(model => model.EINorSSN, new { @class = "form-control", @maxlength = "9" })
                                     <span>Is EIN?</span>
                                     @Html.CheckBoxFor(model => model.IsEIN, new { @class = "css-checkbox", id = "chkIsEIN" })
                                 </td>
+                                <td class="labelName"><label class="control-label">Email Address:</label></td>
+                                <td class="fieldName">@Html.TextBoxFor(model => model.Email, new { @class = "form-control" })</td>
                             </tr>
                             <tr><td class="spacer10"></td></tr>
                             <tr>
-                                <td class="labelName"><label class="control-label">Email Address:</label></td>
-                                <td class="fieldName">@Html.TextBoxFor(model => model.Email, new { @class = "form-control" })</td>
                                 <td class="labelName"><label style="margin-left:25%" class="control-label">Contact Name:</label></td>
                                 <td class="fieldName">@Html.TextBoxFor(model => model.ContactNm, new { @class = "form-control" })</td>
-                            <tr><td class="spacer10"></td></tr>
-                            <tr><td class="spacer10"></td></tr>
-                            <tr>
                                 <td class="labelName"><label class="control-label">Phone:</label></td>
                                 <td class="fieldName">
                                     @Html.TextBoxFor(model => model.Phone, new { @class = "form-control", @maxlength = "10" })
                                 </td>
+                            </tr>
+                            <tr><td class="spacer10"></td></tr>
+                            <tr>
+
                                 <td class="labelName"><label style="margin-left:25%" class="control-label">Phone Extn:</label></td>
                                 <td class="fieldName">
                                     @Html.TextBoxFor(model => model.PhoneExtn, new { @class = "form-control", @maxlength = "10" })
@@ -422,19 +426,23 @@
                                 </td>
                                 <td class="labelName"><label style="margin-left:25%" class="control-label">Business Member Type:</label></td>
                                 <td class="fieldName">@Html.DropDownListFor(model => model.SigningAuthority.BusinessMemberType, Enum.GetValues(typeof(CorporationBusinessMembers)).Cast<CorporationBusinessMembers>().Select(x => new SelectListItem { Text = Utility.GetEnumDisplayName(x), Value = (x).ToString() }), "--Select--", new { @id = "businessmemeber", @class = "form-control" })</td>
-                                <td  class="labelName">
-                                    <label style="margin-left:25%" class="control-label">
-                                        Is Business Terminated?
-                                    </label>
-                                </td>
+
+                            </tr>
+                            <tr><td class="spacer10"></td></tr>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
                                 <td>
+                                    <span>Is Business Terminated?</span>
                                     @Html.CheckBoxFor(model => model.IsBusinessTerminated, new { @class = "css-checkbox", id = "chkIsBusinssTerminated" })
                                 </td>
                             </tr>
                             <tr><td class="spacer10"></td></tr>
                             <tr>
+
                                 <td class="labelName"><label class="control-label">Signing Authority Name:</label></td>
-                                <td class="fieldName">@Html.TextBoxFor(model => model.SigningAuthority.Name, new { @class = "form-control"})</td>
+                                <td class="fieldName">@Html.TextBoxFor(model => model.SigningAuthority.Name, new { @class = "form-control" })</td>
                                 <td class="labelName"><label style="margin-left:25%" class="control-label">Signing Authority Phone:</label></td>
                                 <td class="fieldName">@Html.TextBoxFor(model => model.SigningAuthority.Phone, new { @class = "form-control", @maxlength = "10" })</td>
                             </tr>
@@ -463,7 +471,7 @@
                                     @Html.TextBoxFor(model => Model.ForeignAddress.Address2, new { @id = "ForeignAddress2", @style = "display:none", @class = "form-control" })
                                 </td>
                                 <td>
-                                    <span style="margin-left:25%"> Is Foreign?</span>
+                                    <span> Is Foreign?</span>
                                     @Html.CheckBoxFor(model => model.IsForeign, new { onclick = "enableOrDisableFields()", @class = "css-checkbox", id = "IsForeign" })
                                 </td>
                             </tr>
@@ -498,7 +506,7 @@
             </div>
         </div>
     }
-  
+
     <div class="taC">
         <button type="button" class="btn btn_lg btn_primary" onclick="location.href='@Url.Action("Index", "Home")'" id="btnback">
             <i class="fa fa-arrow-circle-left"></i>

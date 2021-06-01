@@ -19,7 +19,7 @@ the SDK. See below for more directions:
 ### To get the sandbox keys:
 - Go to Sandbox Developer console: https://sandbox.taxbandits.com
 - Signup or signin to Sandbox 
-- Navigate to settings and then to API Credentials. Copy client id, client secret and user token. 
+- Navigate to **settings** from the left menu and choose **API Credentials**. Copy client id, client secret and user token. 
 ### The sandbox URLs: (Please make sure to use the right versions)
 - Sandbox Auth Server: https://testoauth.expressauth.net/v2/tbsauth 
 - API Server: https://testapi.taxbandits.com/v1.6.1 
