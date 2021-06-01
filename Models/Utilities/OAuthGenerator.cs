@@ -59,7 +59,7 @@ namespace DotNetCoreSDK.Models.Utilities
             }
             else
             {
-                throw new Exception("Access Token is missing in the request header. pleasecheck appsettings json file and include API credentials.");
+                throw new Exception("Access Token is missing in the request header. Please check appsettings json file and include API credentials.");
             }
         }
         #endregion
